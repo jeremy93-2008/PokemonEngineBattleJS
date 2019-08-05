@@ -1,4 +1,5 @@
 import Monster from "./monster";
+import Attacks from "./attack";
 
 // gameplay logic
 
@@ -13,44 +14,20 @@ export default class Battle {
     this.rendering = false;
   }
 
-  genSequence(pA: number) {
+  doRound(pA: number) {
     // Prevent user from spamming button while animation is going on
     if (this.rendering) {
       return;
     }
     this.rendering = true;
 
-    let firstAttacker;
-    let secondAttacker;
-    let firstAttackerAttack;
-    let secondAttackerAttack;
-    let f1;
-    let f2;
-    let d1;
-    let d2;
-    let a1;
-    let a2;
-    //determine first attacker
-    if (this.player.stats.speed < this.comp.stats.speed) {
-      firstAttacker = this.comp;
-      secondAttacker = this.player;
-      firstAttackerAttack = Math.floor(Math.random() * 4);
-      secondAttackerAttack = pA;
-      f1 = this.comp;
-      f2 = this.player;
-      a1 = this.comp.attacks[firstAttackerAttack];
-      a2 = this.player.attacks[secondAttackerAttack];
+    let d1: number = 0;
+    let d2: number = 0;
 
-    } else {
-      firstAttacker = this.player;
-      secondAttacker = this.comp;
-      firstAttackerAttack = pA;
-      secondAttackerAttack = Math.floor(Math.random() * 4);
-      f1 = this.player;
-      f2 = this.comp;
-      a1 = this.player.attacks[firstAttackerAttack];
-      a2 = this.comp.attacks[secondAttackerAttack];
-    };
+    //determine first attacker
+    const { a1, a2, f1, f2, firstAttacker, firstAttackerAttack, secondAttacker, secondAttackerAttack }
+      = (this.player.stats.speed < this.comp.stats.speed) ? this.orderedDataPlayer(this.comp, this.player, pA) :
+        this.orderedDataPlayer(this.player, this.comp, pA);
 
     //first attacker attacks
     d1 = this.attack(firstAttacker, secondAttacker, firstAttackerAttack);
@@ -111,5 +88,17 @@ export default class Battle {
     };
   }
 
+  private orderedDataPlayer(firstMonster: Monster, secondMonster: Monster, pA: number) {
+    let firstAttacker = firstMonster;
+    let secondAttacker = secondMonster;
+    let firstAttackerAttack = Math.floor(Math.random() * 4);
+    let secondAttackerAttack = pA;
+    let f1 = this.comp;
+    let f2 = this.player;
+    let a1 = this.comp.attacks[firstAttackerAttack];
+    let a2 = this.player.attacks[secondAttackerAttack];
+
+    return { firstAttacker, secondAttacker, firstAttackerAttack, secondAttackerAttack, f1, f2, a1, a2 }
+  }
 
 };
