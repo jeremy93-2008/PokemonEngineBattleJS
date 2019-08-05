@@ -1,0 +1,122 @@
+{
+    "NORMAL": {
+        "Name": "Normal",
+        "InternalName": "NORMAL",
+        "Weaknesses": "FIGHTING",
+        "Immunities": "GHOST"
+    },
+    "FIGHTING": {
+        "Name": "Lucha",
+        "InternalName": "FIGHTING",
+        "Weaknesses": "FLYING,PSYCHIC",
+        "Resistances": "ROCK,BUG,DARK"
+    },
+    "FLYING": {
+        "Name": "Volador",
+        "InternalName": "FLYING",
+        "Weaknesses": "ROCK,ELECTRIC,ICE",
+        "Resistances": "FIGHTING,BUG,GRASS",
+        "Immunities": "GROUND"
+    },
+    "POISON": {
+        "Name": "Veneno",
+        "InternalName": "POISON",
+        "Weaknesses": "GROUND,PSYCHIC",
+        "Resistances": "FIGHTING,POISON,BUG,GRASS"
+    },
+    "GROUND": {
+        "Name": "Tierra",
+        "InternalName": "GROUND",
+        "Weaknesses": "WATER,GRASS,ICE",
+        "Resistances": "POISON,ROCK",
+        "Immunities": "ELECTRIC"
+    },
+    "ROCK": {
+        "Name": "Roca",
+        "InternalName": "ROCK",
+        "Weaknesses": "FIGHTING,GROUND,STEEL,WATER,GRASS",
+        "Resistances": "NORMAL,FLYING,POISON,FIRE"
+    },
+    "BUG": {
+        "Name": "Bicho",
+        "InternalName": "BUG",
+        "Weaknesses": "FLYING,ROCK,FIRE",
+        "Resistances": "FIGHTING,GROUND,GRASS"
+    },
+    "GHOST": {
+        "Name": "Fantasma",
+        "InternalName": "GHOST",
+        "Weaknesses": "GHOST,DARK",
+        "Resistances": "POISON,BUG",
+        "Immunities": "NORMAL,FIGHTING"
+    },
+    "STEEL": {
+        "Name": "Acero",
+        "InternalName": "STEEL",
+        "Weaknesses": "FIGHTING,GROUND,FIRE",
+        "Resistances": "NORMAL,FLYING,ROCK,BUG,GHOST,STEEL,GRASS,PSYCHIC,ICE,DRAGON,DARK",
+        "Immunities": "POISON"
+    },
+    "QMARKS": {
+        "Name": "???",
+        "InternalName": "QMARKS",
+        "IsPseudoType": "1"
+    },
+    "FIRE": {
+        "Name": "Fuego",
+        "InternalName": "FIRE",
+        "IsSpecialType": "1",
+        "Weaknesses": "GROUND,ROCK,WATER",
+        "Resistances": "BUG,STEEL,FIRE,GRASS,ICE"
+    },
+    "WATER": {
+        "Name": "Agua",
+        "InternalName": "WATER",
+        "IsSpecialType": "1",
+        "Weaknesses": "GRASS,ELECTRIC",
+        "Resistances": "STEEL,FIRE,WATER,ICE"
+    },
+    "GRASS": {
+        "Name": "Planta",
+        "InternalName": "GRASS",
+        "IsSpecialType": "1",
+        "Weaknesses": "FLYING,POISON,BUG,FIRE,ICE",
+        "Resistances": "GROUND,WATER,GRASS,ELECTRIC"
+    },
+    "ELECTRIC": {
+        "Name": "El\u00e9ctrico",
+        "InternalName": "ELECTRIC",
+        "IsSpecialType": "1",
+        "Weaknesses": "GROUND",
+        "Resistances": "FLYING,STEEL,ELECTRIC"
+    },
+    "PSYCHIC": {
+        "Name": "Ps\u00edquico",
+        "InternalName": "PSYCHIC",
+        "IsSpecialType": "1",
+        "Weaknesses": "BUG,GHOST,DARK",
+        "Resistances": "FIGHTING,PSYCHIC"
+    },
+    "ICE": {
+        "Name": "Hielo",
+        "InternalName": "ICE",
+        "IsSpecialType": "1",
+        "Weaknesses": "FIGHTING,ROCK,STEEL,FIRE",
+        "Resistances": "ICE"
+    },
+    "DRAGON": {
+        "Name": "Drag\u00f3n",
+        "InternalName": "DRAGON",
+        "IsSpecialType": "1",
+        "Weaknesses": "ICE,DRAGON",
+        "Resistances": "FIRE,WATER,GRASS,ELECTRIC"
+    },
+    "DARK": {
+        "Name": "Siniestro",
+        "InternalName": "DARK",
+        "IsSpecialType": "1",
+        "Weaknesses": "FIGHTING,BUG",
+        "Resistances": "GHOST,DARK",
+        "Immunities": "PSYCHIC"
+    }
+}
