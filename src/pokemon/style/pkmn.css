@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    user-select: none;
+}
+
+.container {
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    background: url('../../assets/background/back.jpg');
+    background-size: cover;
+}
+
+.logo {
+    height: 15vh;
+}
+
+.pokemon-chosen-container, .pokemon-list {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+    justify-content: center;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.pokemon-chosen img, .pokemon-one img  {
+    width: 5vw;
+    height: 10vh;
+}
+
+.pokemon-chosen-container.complete {
+    background: #337049;
+    border-radius: 50px;
+    margin: 0 4vw;
+    box-sizing: border-box;
+}
+
+.pokemon-list {
+    grid-template-columns: auto auto auto auto auto auto;
+    overflow-y: auto; 
+    width: 99vw;
+    height: calc(100vh - 45vh - 140px);
+    padding: 0;
+}
+
+.pokemon-chosen {
+    width: 25vw;
+    height: 15vh;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: solid 1px rgb(68, 68, 68);
+    color: #F0C305;
+    text-shadow: 2px 0 0 #325EA1, -2px 0 0 #325EA1, 0 2px 0 #325EA1,
+                0 -2px 0 #325EA1, 1px 1px #325EA1, -1px -1px 0 #325EA1, 
+                1px -1px 0 #325EA1, -1px 1px 0 #325EA1;
+}
+
+
+
+.pokemon-chosen.active {
+    border:solid 5px #325EA1;
+    box-sizing: border-box;
+}
+
+.pokemon-chosen.active .pokeball-pokemon {
+    margin-top: -4px;
+}
+
+.pokemon-chosen .pokeball {
+    margin-top: 2vh;
+    opacity: 0.8;
+}
+
+.pokemon-one {
+    width: 14vw;
+    height: 16vh;
+    padding: 10px 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: solid 1px rgb(68, 68, 68);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: #F0C305;
+    text-shadow: 2px 0 0 #325EA1, -2px 0 0 #325EA1, 0 2px 0 #325EA1,
+                0 -2px 0 #325EA1, 1px 1px #325EA1, -1px -1px 0 #325EA1, 
+                1px -1px 0 #325EA1, -1px 1px 0 #325EA1;
+}
+
+.pokemon-one:active, .pokemon-chosen:active {
+    transform: scale(0.9);
+}
+
+h3{
+    display: inline-block;
+    height: 25px;
+    font-size: 22px;
+    color: #F0C305;
+    text-shadow: 3px 0 0 #325EA1, -3px 0 0 #325EA1, 0 3px 0 #325EA1,
+                0 -3px 0 #325EA1, 2px 2px #325EA1, -2px -2px 0 #325EA1,
+                2px -2px 0 #325EA1, -2px 2px 0 #325EA1;
+}
+
+.fight {
+    position: absolute;
+    background: #337049;
+    color: #F0C305;
+    text-shadow: 3px 0 0 #325EA1, -3px 0 0 #325EA1, 0 3px 0 #325EA1,
+                0 -3px 0 #325EA1, 2px 2px #325EA1, -2px -2px 0 #325EA1,
+                2px -2px 0 #325EA1, -2px 2px 0 #325EA1;
+    right: 15vw;
+    border: none;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 12px 65px 15px 65px;
+    border-radius: 0 0 50px 50px;
+    outline: none;
+    cursor: pointer;
+}

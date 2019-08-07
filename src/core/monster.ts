@@ -14,7 +14,7 @@ export default class Monster {
   /**
  * Create a New Pokemon ready to fight
  */
-  constructor(public name: string, public stats: stats, public attacks: Attacks[], public typing: string, public weakness: string, public strength: string, public human: boolean) {
+  constructor(public name: string, public stats: stats, public attacks: Attacks[], public typing: string[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number) {
     this.stats = stats;
     this.attacks = attacks;
     this.typing = typing;
@@ -23,10 +23,12 @@ export default class Monster {
     this.strength = strength;
     this.human = human;
     this.maxHP = stats.hp;
+    this.inmunities = inmunities;
+    this.level = level;
   }
 
   getNewInstanceOfMonster(human: boolean) {
-    let newMonster = new Monster(this.name, Object.assign({}, this.stats), Object.assign([], this.attacks), this.typing, this.weakness, this.strength, human);
+    let newMonster = new Monster(this.name, Object.assign({}, this.stats), Object.assign([], this.attacks), this.typing, this.weakness, this.strength, human, this.inmunities, this.level);
     return newMonster;
   }
 };

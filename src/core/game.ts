@@ -64,10 +64,12 @@ export default class Battle {
       defPower = defender.stats.def;
     };
 
-    if (att.typing === defender.weakness) {
+    if (defender.weakness.indexOf(att.typing) !== -1) {
       modifier = 2;
-    } else if (att.typing === defender.strength) {
+    } else if (defender.strength.indexOf(att.typing) !== -1) {
       modifier = 0.75;
+    } else if (defender.inmunities.indexOf(att.typing) !== -1) {
+      modifier = 0;
     };
 
     let damage = Math.floor((((((50 / 7) * attPower * att.damage)) / (defPower * 50)) + 2) * modifier * (Math.floor((Math.random() * 38) + 217) / 255));
