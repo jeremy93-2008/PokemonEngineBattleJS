@@ -1,0 +1,41 @@
+.circle {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    border: solid 1px black;
+    background: radial-gradient(#a2a1a1, #1f1f1f);
+    position: absolute;
+    right: 20vw;
+    top: 28vh;
+    transform: matrix3d(5, 0, 0, 0, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+}
+.circle.human {
+    left: 20vw;
+    bottom: 30vh;
+    top: initial;
+    right: initial;
+}
+.hud {
+    width: 150px;
+    height: 25px;
+    background: lightgreen;
+}
+.pokemon {
+    display: inline-block;
+    right: 17vw;
+    top: 16vh;
+    z-index: 2;
+    position: absolute;
+}
+.pokemon.human {
+    display: inline-block;
+    position: absolute;
+    bottom: 30vh;
+    z-index: 2;
+    left: 16vw;
+    top: initial;
+    right: initial;
+}
+.pokemon img {
+    width: 10vw;
+}

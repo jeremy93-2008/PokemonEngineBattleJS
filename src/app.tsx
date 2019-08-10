@@ -1,5 +1,18 @@
 import React from "react";
 import ReactDom from "react-dom";
-import { Pokemon } from "./pokemon-battle/pkmn-battle";
+import { Switch, Redirect } from "react-router";
+import { HashRouter, Route } from "react-router-dom";
+import { Pokemon } from "./pokemon-battle/pkmn-choose";
+import { PokemonBattle } from "./pokemon-battle/pkmn-battle";
 
-ReactDom.render(<Pokemon></Pokemon>, document.getElementById("app"));
+ReactDom.render(
+<HashRouter hashType="slash">
+    <Switch>
+        <Route exact path="/" component={Pokemon}></Route>
+        <Route path="/battle" render={(props) => {
+            if(props.location.state) 
+                return <PokemonBattle {...props} ></PokemonBattle>
+            return <Redirect to="/"></Redirect>
+        }}></Route>        
+    </Switch>
+</HashRouter>, document.getElementById("app"));
