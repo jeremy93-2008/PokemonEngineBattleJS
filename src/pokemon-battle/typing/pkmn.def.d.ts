@@ -1,7 +1,9 @@
+import Monster from "../../core/monster";
+
 /**
  * Pokemon object as Stored in our JSON data
  */
-interface Pokemon {
+interface PokemonObject {
     Name: string,
     InternalName: string,
     Type1: string,
@@ -54,6 +56,11 @@ interface PkmnType {
     Immunities?: string
 } 
 
+interface PokemonMessage { 
+    pokemonSelected: number; 
+    team: Monster[]; 
+    trainer: string; 
+}
 
 /**
  *  "Name": "Bulbasaur",

@@ -1,7 +1,8 @@
 import typesJSON from "../info/types.json";
+import { PokemonObject, PkmnTypes, PkmnType } from "../pokemon-battle/typing/pkmn.def.js";
 
 export class Types {
-    static getWeaknessForPkmn(pkmn: Pokemon) {
+    static getWeaknessForPkmn(pkmn: PokemonObject) {
         const types = [pkmn.Type1, pkmn.Type2];
         return types.map(t => {
             if(t) {
@@ -10,7 +11,7 @@ export class Types {
             }
         }).flat(2);
     }
-    static getStrenghForPkmn(pkmn: Pokemon) {
+    static getStrenghForPkmn(pkmn: PokemonObject) {
         const types = [pkmn.Type1, pkmn.Type2];
         return types.map(t => {
             if(t) {
@@ -19,7 +20,7 @@ export class Types {
             }
         }).flat(2);
     }
-    static getInmunitiesForPkmn(pkmn: Pokemon) {
+    static getInmunitiesForPkmn(pkmn: PokemonObject) {
         const types = [pkmn.Type1, pkmn.Type2];
         return types.map(t => {
             if(t) {

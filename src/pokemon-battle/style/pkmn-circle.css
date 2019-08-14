@@ -1,41 +1,126 @@
-.circle {
-    height: 55px;
-    width: 55px;
-    border-radius: 50%;
-    border: solid 1px black;
-    background: radial-gradient(#a2a1a1, #1f1f1f);
-    position: absolute;
-    right: 20vw;
-    top: 28vh;
-    transform: matrix3d(5, 0, 0, 0, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-}
-.circle.human {
-    left: 20vw;
-    bottom: 30vh;
-    top: initial;
-    right: initial;
-}
 .hud {
-    width: 150px;
-    height: 25px;
-    background: lightgreen;
+    width: 25vw;
+    background: #d6d6d6;
+    border: solid 4px #333;
+    border-radius: 10px;
+    left: 26vw;
+    position: absolute;
+    top: 12vh;
+    height: 11vh;
+    box-shadow: 0 0 10px gray;
+}
+.hud.human {
+    left: 54vw;
+    bottom: 38vh;
+    height: 13vh;
+    top: initial;
+    position: absolute;
+}
+.hud div {
+    display: inline-block;
+    width: 11vw;
+    position: relative;
+}
+.hud .name {
+    margin: 8px 10px 0 18px;
+}
+.hud .level {
+    left: 7vw;
+    margin-bottom: 10px;
+}
+.hp-container {
+    width: 100%;
+    position: relative;
+    height: 1vh;
+    width: 9vw;
+    left: 1vw;
+    top: -0.15vh;
+    border-radius: 50px;
+    overflow: hidden;
+    border: solid 1px white;
+}
+.hp-container.human {
+    left: 0.75vw;
+}
+.hp-container .current-hp{
+    background: green;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+}
+.hud div.hp-number {
+    display: block;
+    text-align: right;
+    width: 92%;
+    margin-top: 3.5vh;
+    margin-bottom: 0.5vh;
+}
+.hud div.hp-name {
+    left: 38%;
+    width: 12.8vw;
+    top: 4vh;
+    background: #333;
+    color: #eee;
+    padding: 0.1vw 1vh;
+    position: absolute;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+.hud div.hp-name.humain {
+    width: 13.75vw;
 }
 .pokemon {
     display: inline-block;
-    right: 17vw;
-    top: 16vh;
+    right: 22vw;
+    top: 14vh;
     z-index: 2;
     position: absolute;
 }
 .pokemon.human {
     display: inline-block;
     position: absolute;
-    bottom: 30vh;
+    bottom: 28vh;
     z-index: 2;
-    left: 16vw;
+    left: 22vw;
     top: initial;
     right: initial;
 }
 .pokemon img {
-    width: 10vw;
+    width: 13vw;
+}
+.pokemon.animate {
+    animation: flicking .7s ease-in;
+}
+.animation {
+    left: 64vw;
+    top: 14vh;
+    z-index: 10;
+}
+.animation-human {
+    left: 12vw;
+    top: 55vh;
+    z-index: 10;
+}
+@keyframes flicking {
+    0% {
+        opacity: 1;
+    }
+    15% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    45% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 1;
+    }
+    75%{
+        opacity: 0;
+    }
+    90% {
+        opacity: 1;
+    }
 }

@@ -1,17 +1,43 @@
-import React from "react";
-import { PkmnCircleProps } from "./typing/pkmn-battle";
+import React, { useState } from "react";
+import { PkmnCircleProps, PkmnStateAnimation } from "./typing/pkmn-battle";
 import images from "../assets/normal/*.png";
 import back_images from "../assets/back/*.png";
 
 import "./style/pkmn-circle.css";
+import { AnimationAttack } from "./compositor/animation";
 
 export function PokemonCircle(props: PkmnCircleProps) {
-    console.log(props);
+
+    const pokemon = props.team[props.pokemonSelected];
+    const animation = props.animation;
+    const percentageHp = (pokemon.stats.hp * 100 / pokemon.maxHP);
+
     return (
         <div className="pokemon-circle">
-            <div className="hud"></div>
-            <div className={`pokemon ${props.humain ? "human" : ""}`}><img src={(props.humain) ? back_images[props.pkmns[0].name] : images[props.pkmns[0].name]}></img></div>
-            <div className={`circle ${props.humain ? "human" : ""}`}></div>
+            <div className={`hud ${props.humain ? "human" : ""}`}>
+                <div className="name">{pokemon.name}</div><div className="level">Lv {pokemon.level}</div> 
+                <div className={`hp-name ${props.humain ? "humain" : ""}`}>{props.humain ? "HP" : ""}
+                    <div className={`hp-container ${props.humain ? "human" : ""}`}>
+                        <div style={{width: percentageHp +"%", 
+                        background: `${percentageHp < 15 ? "red": percentageHp < 40 ? "orange" : "green"}`}} 
+                        className="current-hp"></div>
+                    </div>
+                </div>
+                {props.humain && <div className="hp-number">{pokemon.stats.hp}/{pokemon.maxHP}</div>}
+            </div>
+            {doAnimation(animation as PkmnStateAnimation)}
+            <div className={getPkmnClassName(props)}><img src={(props.humain) ? back_images[pokemon.name] : images[pokemon.name]}></img></div>
         </div>
     );
+}
+
+function getPkmnClassName(props: PkmnCircleProps): string | undefined {
+    let className = "pokemon";
+    if(props.humain) className += " human";
+    if(props.animation && props.animation.messageType == "MessageAttack") className += " animate"
+    return className;
+}
+
+function doAnimation(animation: PkmnStateAnimation) {
+    return animation && animation.messageType == "MessageAttack" && <AnimationAttack className={animation.human ? "animation-human" : "animation"} image={animation.image} count={animation.count} time={animation.time} splitBy={animation.splitBy}></AnimationAttack>
 }

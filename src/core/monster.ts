@@ -1,4 +1,6 @@
 import Attacks from "./attack";
+import pokemonList from "../info/pokemon.json";
+import { PokemonObject } from "../pokemon-battle/typing/pkmn.def";
 
 interface stats {
   hp: number;
@@ -30,5 +32,9 @@ export default class Monster {
   getNewInstanceOfMonster(human: boolean) {
     let newMonster = new Monster(this.name, Object.assign({}, this.stats), Object.assign([], this.attacks), this.typing, this.weakness, this.strength, human, this.inmunities, this.level);
     return newMonster;
+  }
+
+  toPokemon(): PokemonObject {
+    return ((pokemonList as unknown as PokemonObject[]).find((pkmn) => pkmn.Name == this.name) as PokemonObject);
   }
 };

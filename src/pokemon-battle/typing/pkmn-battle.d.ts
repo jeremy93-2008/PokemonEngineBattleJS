@@ -1,4 +1,7 @@
 import Monster from "../../core/monster";
+import { PokemonMessage } from "./pkmn.def";
+import { Battle } from "../../core/battle";
+import Attacks from "../../core/attack";
 
 interface PkmnBattleProps {
     terrain: PkmnBattleTerrain;
@@ -14,9 +17,34 @@ interface PkmnBattleProps {
 
 interface PkmnCircleProps {
     terrain: PkmnBattleTerrain,
-    pkmns: Monster[],
+    team: Monster[],
     trainer: string,
-    humain: boolean;
+    humain: boolean,
+    pokemonSelected: number,
+    animation?: PkmnStateAnimation
 }
+
+interface PkmnStateMessage {
+    ally: PokemonMessage,
+    enemy: PokemonMessage,
+    setMessage:  React.Dispatch<React.SetStateAction<JSX.Element>>;
+    setAlly?: React.Dispatch<React.SetStateAction<PokemonMessage>>;
+    setEnemy?: React.Dispatch<React.SetStateAction<PokemonMessage>>;
+    setAnimation?: React.Dispatch<React.SetStateAction<PkmnStateAnimation | undefined>>;
+    pokemonRound?: PkmnRoundMessage;
+    battle?: Battle;
+    attack?: Attacks;
+}
+
+interface PkmnStateAnimation extends AnimationProps {
+    human: boolean;
+    messageType?: PkmnActionMessage;
+}
+
+type dispatchAnimaton = React.Dispatch<React.SetStateAction<PkmnStateAnimation>>;
+
+type PkmnRoundMessage = { damage: number, modifier: number }
+
+type PkmnActionMessage = "Attack" | "MessageAttack" | "MessageEffectiveness" | "MessageDamage";
 
 type PkmnBattleTerrain = "grass" | "city" | "ocean" | "mountain";

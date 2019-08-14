@@ -1,5 +1,43 @@
 .background {
-    background: repeating-linear-gradient(#fff,#555, #666, #8888, #666, #555, #fff);
     width: 100vw;
     height: 100vh;
+    background-size: cover;
+}
+.grass {
+    background-image: url("../../assets/background/Grassland.png");
+}
+.mountain {
+    background-image: url("../../assets/background/Wasteland.png")
+}
+.city {
+    background-image: url("../../assets/background/City.png");
+}
+.ocean {
+    background-image: url("../../assets/background/Ocean.png")
+}
+.messageContainer {
+    position: absolute;
+    bottom: -3vh;
+    left: 9vw;
+    height: 32vh;
+    padding-top: 3vh;
+    width: 80vw;
+    z-index: 3;
+    border: solid 4px #333;
+    background: #d6d6d6;
+    border-radius: 10px;
+    box-shadow: 0 0 10px grey;
+    border-bottom: none;
+    text-align: center;
+}
+.messageContainer .att {
+    display: inline-block;
+    font-size: 4vh;
+    margin: 10px 5px 10px 0;
+    padding: 1.5vw 0;
+    color: #222;
+    border: solid 2px #333;
+    border-radius: 10px;
+    width: calc(50% - 12px);
+    cursor: pointer;
 }
