@@ -23,7 +23,7 @@ export function PokemonCircle(props: PkmnCircleProps) {
                         className="current-hp"></div>
                     </div>
                 </div>
-                {props.humain && <div className="hp-number">{pokemon.stats.hp}/{pokemon.maxHP}</div>}
+                {props.humain && <div className="hp-number">{(pokemon.stats.hp).toFixed(0)}/{pokemon.maxHP}</div>}
             </div>
             {doAnimation(animation as PkmnStateAnimation)}
             <div className={getPkmnClassName(props)}><img src={(props.humain) ? back_images[pokemon.name] : images[pokemon.name]}></img></div>

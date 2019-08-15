@@ -9,6 +9,6 @@ const commonAnimationAttack : PkmnStateAnimation = {
     human: false
 }
 
-export function dispatchAnimation(action: PkmnActionMessage, setAnimation: dispatchAnimaton) {
+export function dispatchAnimation(action: PkmnActionMessage, isHuman: boolean, setAnimation: dispatchAnimaton) {
     setAnimation({...commonAnimationAttack, messageType: action});
 }

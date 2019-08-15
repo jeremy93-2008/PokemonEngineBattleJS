@@ -34,6 +34,7 @@ interface PkmnStateMessage {
     pokemonRound?: PkmnRoundMessage;
     battle?: Battle;
     attack?: Attacks;
+    human?: boolean;
 }
 
 interface PkmnStateAnimation extends AnimationProps {
@@ -43,7 +44,7 @@ interface PkmnStateAnimation extends AnimationProps {
 
 type dispatchAnimaton = React.Dispatch<React.SetStateAction<PkmnStateAnimation>>;
 
-type PkmnRoundMessage = { damage: number, modifier: number }
+type PkmnRoundMessage = { damage: number, modifier: number, attack?: Attacks }
 
 type PkmnActionMessage = "Attack" | "MessageAttack" | "MessageEffectiveness" | "MessageDamage";
 

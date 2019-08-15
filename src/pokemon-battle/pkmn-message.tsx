@@ -16,28 +16,36 @@ export function reducerMessage(action: PkmnActionMessage, state: PkmnStateMessag
 
 function AttacksForUser(action:PkmnActionMessage, state: PkmnStateMessage): JSX.Element {
     const {ally, enemy, battle, setMessage, setAnimation} = state;
-    dispatchAnimation(action, (setAnimation as dispatchAnimaton));
-    return <>{ally.team[ally.pokemonSelected].attacks.map((att, i) => <div key={i} onClick={() => {
+    
+    dispatchAnimation(action, (state.human as boolean), (setAnimation as dispatchAnimaton));
+    return <>{ally.team[ally.pokemonSelected].attacks.map((att, i) => 
+    <div key={i} onClick={() => {
         (battle as Battle).selectPokemonToFight(ally.pokemonSelected, enemy.pokemonSelected);
         const { damage, modifier } = (battle as Battle).humanRound(att);
-        setMessage(reducerMessage("MessageAttack", {ally, enemy, attack: att, battle, setAnimation, pokemonRound: {damage, modifier}, setMessage} ));
+        setMessage(reducerMessage("MessageAttack", {ally, enemy, attack: att, battle, 
+            setAnimation, pokemonRound: {damage, modifier}, setMessage, human: true} ));
     }} className="att">{att.name}</div>)}</>;
 }
 
 function MessageAttackUsed(action: PkmnActionMessage, state: PkmnStateMessage) {
-    const {ally, enemy, attack, battle, setMessage, setAnimation, pokemonRound } = state
-    dispatchAnimation(action, (setAnimation as dispatchAnimaton));
-    return Message(`¡${ally.team[ally.pokemonSelected].name} ha usado ${(attack as Attacks).name}!`, () => {
-        setMessage(reducerMessage("MessageEffectiveness", {attack, battle, ally, enemy, pokemonRound, setMessage, setAnimation}));
+    const {ally, enemy, attack, battle, 
+        setMessage, setAnimation, pokemonRound, human } = state;
+
+    const pkmnMessage = (state.human) ? ally : enemy;
+
+    dispatchAnimation(action, (state.human as boolean), (setAnimation as dispatchAnimaton));
+    return Message(`¡${pkmnMessage.team[pkmnMessage.pokemonSelected].name} ha usado ${(attack as Attacks).name}!`, () => {
+        setMessage(reducerMessage("MessageEffectiveness", {attack, battle, ally, enemy, pokemonRound, setMessage, setAnimation, human}));
     });
 }
 
 function MessageAttackEffectiveness(action: PkmnActionMessage, state: PkmnStateMessage) {
-    const {ally, enemy, battle, attack, setMessage, setAnimation, pokemonRound} = state;
+    const {ally, enemy, battle, attack, 
+        setMessage, setAnimation, pokemonRound, human} = state;
     
     let effectiveness = null;
 
-    const pkmn = enemy.team[enemy.pokemonSelected];
+    const pkmn = (state.human) ? enemy.team[enemy.pokemonSelected] : ally.team[ally.pokemonSelected];
     
     if((attack as Attacks).attType == "Status"){
         effectiveness = "Los ataques de status todavia no estan implementados"
@@ -49,34 +57,39 @@ function MessageAttackEffectiveness(action: PkmnActionMessage, state: PkmnStateM
         effectiveness = "Es super efectivo";
     }
 
-    dispatchAnimation(action, (setAnimation as dispatchAnimaton));
+    dispatchAnimation(action, (state.human as boolean), (setAnimation as dispatchAnimaton));
 
     return (effectiveness) ? Message(`¡${effectiveness}!`, () => {
-        setMessage(reducerMessage("MessageDamage", {ally, battle, enemy, setMessage, setAnimation, pokemonRound}));
-    }) : reducerMessage("MessageDamage", {ally, battle, enemy, setMessage, setAnimation, pokemonRound});
+        setMessage(reducerMessage("MessageDamage", {ally, battle, enemy, setMessage, setAnimation, pokemonRound, human}));
+    }) : reducerMessage("MessageDamage", {ally, battle, enemy, setMessage, setAnimation, pokemonRound, human});
 }
 
 function MessageAttackDamage(action: PkmnActionMessage, state: PkmnStateMessage) {
-    const {ally, enemy, battle, setMessage, setAnimation, pokemonRound} = state;
+    const {ally, enemy, battle, setMessage, 
+        setAnimation, pokemonRound, human} = state;
 
-    const pkmn = enemy.team[enemy.pokemonSelected];
+    const pkmn = (human) ? enemy.team[enemy.pokemonSelected] : ally.team[ally.pokemonSelected];
+    const enemigo = (human) ? "enemigo" : "";
     const percentageDamage = calculatePercentage(pokemonRound, pkmn).toFixed(2);
 
-    dispatchAnimation(action, (setAnimation as dispatchAnimaton));
+    dispatchAnimation(action, (state.human as boolean), (setAnimation as dispatchAnimaton));
 
-    let text = `El ${pkmn.name} enemigo ha perdido ${percentageDamage}% de puntos de vida`;
+    let text = `El ${pkmn.name} ${enemigo} ha perdido ${percentageDamage}% de puntos de vida`;
 
     if(parseInt(percentageDamage) == 0) {
-        text = `El ${pkmn.name} enemigo no ha recibido ningún daño`;
+        text = `El ${pkmn.name} ${enemigo} no ha recibido ningún daño`;
     }
 
     return Message(text, () => {
-        if((battle as Battle).isHumanTurn)  
+        if(!state.human){
             setMessage(reducerMessage("Attack", {ally, battle, enemy, setMessage, setAnimation}));
-        (battle as Battle).computerRound();
+            return;
+        }
+        state.human = !state.human;
+        const {attack, damage, modifier} = (battle as Battle).computerRound();
+        setMessage(reducerMessage("MessageAttack", {ally, enemy, battle, attack, 
+            setMessage, setAnimation, pokemonRound: {damage, modifier}, human: state.human }));
     });        
-
-
 }
 
 function Message(text: string, onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) {

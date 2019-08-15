@@ -2,10 +2,9 @@ import Monster from "./monster";
 import Attacks from "./attack";
 import uniqueRandom = require("unique-random");
 import { pkmnAttacks } from "./pkmnAttacks";
+import { getComputerAttack } from "./computerAI";
 
 export class Battle {
-  public isHumanTurn: boolean;
-
   private pkmnTeamAlly: Monster[];
   private pkmnTeamEnemy: Monster[];
 
@@ -19,15 +18,14 @@ export class Battle {
     this.pkmnTeamEnemy = teamEnemy;
     this.allyPkmnIndex = 0;
     this.enemyPkmnIndex = 0;
-    this.isHumanTurn = true;
     this.attacksEnemy = [];
   }
 
   selectPokemonToFight(allyPkmnIndex: number, enemyPkmnIndex: number) {
     this.allyPkmnIndex = allyPkmnIndex;
     this.enemyPkmnIndex = enemyPkmnIndex;
-
-    this.selectAttacksForComputer();
+    if(this.attacksEnemy.length < 1) 
+      this.selectAttacksForComputer();
   }
 
   humanRound(attack: Attacks) {
@@ -36,7 +34,8 @@ export class Battle {
   }
 
   computerRound() {
-
+    return this.makeAttack(this.pkmnTeamEnemy[this.enemyPkmnIndex],
+      this.pkmnTeamAlly[this.allyPkmnIndex], getComputerAttack(this.attacksEnemy, this.pkmnTeamAlly[this.allyPkmnIndex]));
   }
 
   makeAttack(attacker: Monster, defender: Monster, attack: Attacks) {
@@ -77,8 +76,7 @@ export class Battle {
     defender.stats.hp -= damage;
     if (defender.stats.hp < 0) { defender.stats.hp = 0; }
 
-    this.isHumanTurn = false;
-    return {damage, modifier};
+    return {damage, modifier, attack};
   }
 
   private selectAttacksForComputer() {
