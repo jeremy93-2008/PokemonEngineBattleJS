@@ -97,8 +97,8 @@
     z-index: 10;
 }
 .animation-human {
-    left: 12vw;
-    top: 55vh;
+    left: 20vw;
+    top: 50vh;
     z-index: 10;
 }
 @keyframes flicking {

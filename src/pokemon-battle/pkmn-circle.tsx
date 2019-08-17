@@ -19,7 +19,7 @@ export function PokemonCircle(props: PkmnCircleProps) {
                 <div className={`hp-name ${props.humain ? "humain" : ""}`}>{props.humain ? "HP" : ""}
                     <div className={`hp-container ${props.humain ? "human" : ""}`}>
                         <div style={{width: percentageHp +"%", 
-                        background: `${percentageHp < 15 ? "red": percentageHp < 40 ? "orange" : "green"}`}} 
+                        background: `${percentageHp < 20 ? "red": percentageHp < 40 ? "orange" : "green"}`}} 
                         className="current-hp"></div>
                     </div>
                 </div>

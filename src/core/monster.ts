@@ -16,16 +16,16 @@ export default class Monster {
   /**
  * Create a New Pokemon ready to fight
  */
-  constructor(public name: string, public stats: stats, public attacks: Attacks[], public typing: string[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number) {
+  constructor(public name: string, public stats: stats, public attacks: Attacks[], public typing: (string | undefined)[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number) {
     this.stats = stats;
     this.attacks = attacks;
     this.typing = typing;
     this.name = name;
-    this.weakness = weakness;
-    this.strength = strength;
+    this.weakness = weakness || [];
+    this.strength = strength || [];
     this.human = human;
     this.maxHP = stats.hp;
-    this.inmunities = inmunities;
+    this.inmunities = inmunities || [];
     this.level = level;
   }
 

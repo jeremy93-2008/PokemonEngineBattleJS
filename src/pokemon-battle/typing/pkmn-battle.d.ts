@@ -27,12 +27,12 @@ interface PkmnCircleProps {
 interface PkmnStateMessage {
     ally: PokemonMessage,
     enemy: PokemonMessage,
+    battle: Battle;
     setMessage:  React.Dispatch<React.SetStateAction<JSX.Element>>;
     setAlly?: React.Dispatch<React.SetStateAction<PokemonMessage>>;
     setEnemy?: React.Dispatch<React.SetStateAction<PokemonMessage>>;
     setAnimation?: React.Dispatch<React.SetStateAction<PkmnStateAnimation | undefined>>;
     pokemonRound?: PkmnRoundMessage;
-    battle?: Battle;
     attack?: Attacks;
     human?: boolean;
 }
@@ -46,6 +46,6 @@ type dispatchAnimaton = React.Dispatch<React.SetStateAction<PkmnStateAnimation>>
 
 type PkmnRoundMessage = { damage: number, modifier: number, attack?: Attacks }
 
-type PkmnActionMessage = "Attack" | "MessageAttack" | "MessageEffectiveness" | "MessageDamage";
+type PkmnActionMessage = "Attack" | "MessageAttack" | "MessageEffectiveness" | "MessageDamage" | "MessageFainted";
 
 type PkmnBattleTerrain = "grass" | "city" | "ocean" | "mountain";

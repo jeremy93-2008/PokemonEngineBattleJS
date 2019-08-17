@@ -9,14 +9,12 @@ import { Battle } from "../core/battle";
 import { reducerMessage } from "./pkmn-message";
 
 export function PokemonBattle(props: RouteComponentProps) {
-    const { terrain, pkmns } = props.location.state as PkmnBattleProps;
+    const { terrain, pkmns } = props as unknown as PkmnBattleProps;
     const [ally, setAlly] = useState({
-        pokemonSelected: 0,
         team: pkmns.you,
         trainer: ""
     });
     const [enemy, setEnemy] = useState({
-        pokemonSelected: 0,
         team: pkmns.her,
         trainer: ""
     });
@@ -32,9 +30,9 @@ export function PokemonBattle(props: RouteComponentProps) {
 
     return (<div className={`background ${terrain}`}>
         <PokemonCircle animation={(animation && !!!animation.human) ? animation : undefined} 
-            {...enemy} humain={false} terrain={terrain}></PokemonCircle>
+            {...enemy} pokemonSelected={battle.enemyPkmnIndex} humain={false} terrain={terrain}></PokemonCircle>
         <PokemonCircle animation={(animation && !!animation.human) ? animation : undefined} 
-            {...ally} humain={true} terrain={terrain}></PokemonCircle>
+            {...ally} pokemonSelected={battle.allyPkmnIndex} humain={true} terrain={terrain}></PokemonCircle>
         <div className="messageContainer">
             {message}
         </div>

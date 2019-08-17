@@ -5,21 +5,21 @@ import { PokemonObject, Moves, PkmnMoves } from "../pokemon-battle/typing/pkmn.d
 
 export class pkmnAttacks {
 
-    static getRandomAttacksObjectForPkmn(pkmn: PokemonObject, level?: number) {
-        const moves = this.getRandomAttacks(pkmn, level);
+    static getRamdomAttacksPokemon(pkmn: PokemonObject, level?: number, aggressive?: boolean) {
+        const moves = this.getRandomAttacks(pkmn, level, aggressive);
         return moves.map(m => {
             return new Attacks(m.name, Number(m.power), m.type, Number(m.accuracy), m.kind, "");
         })
     }
 
-    private static getRandomAttacks(pkmn: PokemonObject, level?: number) {
+    private static getRandomAttacks(pkmn: PokemonObject, level?: number, aggressive?: boolean) {
         const moves = this.getAvailablePkmnMoves(pkmn, level) as Moves;
-        const movesExtended = this.getAttackData(moves);
+        const movesExtended = this.getAttackData(moves, aggressive);
         const random = uniqueRandom(0, movesExtended.length - 1);
         return [movesExtended[random()], movesExtended[random()], movesExtended[random()], movesExtended[random()]]
     }
 
-    private static getAttackData(moves: Moves) {
+    private static getAttackData(moves: Moves, aggressive?: boolean) {
         return moves.map(m => {
             const arrayMoveExt = (movesJSON as PkmnMoves)[m.attackName.toUpperCase()];
             return {
@@ -31,7 +31,7 @@ export class pkmnAttacks {
                 type: arrayMoveExt[5],
                 kind: arrayMoveExt[6]
             }
-        })
+        }).filter((m) => (aggressive) ? m.kind != "Status" : m);
     }
 
     private static getAvailablePkmnMoves(pkmn: PokemonObject, level?: number) {

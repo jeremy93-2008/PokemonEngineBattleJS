@@ -41,3 +41,26 @@
     width: calc(50% - 12px);
     cursor: pointer;
 }
+.pokemon-list-fainted {
+    left: -10vw;;
+}
+.pokemon-each-fainted {
+    width: 125px;
+}
+.pokemon-each-fainted img {
+    width: 5vw;
+}
+.pokemon-each-fainted.disable {
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+.pokemon-list-fainted .hp-container {
+    background: #333;
+    width: 6vw;
+    left: 1vw;
+    margin-top: 2px;
+}
+.pokemon-list-fainted .hp-container .hp-value {
+    background: green;
+    height: 100%;
+}

@@ -8,8 +8,8 @@ export class Battle {
   private pkmnTeamAlly: Monster[];
   private pkmnTeamEnemy: Monster[];
 
-  private allyPkmnIndex: number;
-  private enemyPkmnIndex: number;
+  public allyPkmnIndex: number;
+  public enemyPkmnIndex: number;
 
   private attacksEnemy: Attacks[];
 
@@ -78,10 +78,16 @@ export class Battle {
 
     return {damage, modifier, attack};
   }
+  
+  clearEnemyAttack() {
+    this.attacksEnemy = [];
+  }
 
   private selectAttacksForComputer() {
     const pkmn = this.pkmnTeamEnemy[this.enemyPkmnIndex];
-    this.attacksEnemy = pkmnAttacks.getRandomAttacksObjectForPkmn(pkmn.toPokemon(), pkmn.level);
+    this.attacksEnemy = pkmnAttacks.getRamdomAttacksPokemon(pkmn.toPokemon(), pkmn.level, true);
   }
+
+
 
 }

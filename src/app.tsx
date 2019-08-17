@@ -11,7 +11,7 @@ ReactDom.render(
         <Route exact path="/" component={PokemonChoose}></Route>
         <Route path="/battle" render={(props) => {
             if(props.location.state) 
-                return <PokemonBattle {...props} ></PokemonBattle>
+                return <PokemonBattle {...props.location.state} ></PokemonBattle>
             return <Redirect to="/"></Redirect>
         }}></Route>        
     </Switch>

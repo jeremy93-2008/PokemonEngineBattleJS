@@ -7,31 +7,31 @@ interface PokemonObject {
     Name: string,
     InternalName: string,
     Type1: string,
-    Type2: string,
+    Type2?: string,
     BaseStats: string,
     GenderRate: string,
     GrowthRate: string,
-    BaseEXP: number,
-    EffortPoints: number[],
-    Rareness: number,
-    Happiness: number,
+    BaseEXP: string,
+    EffortPoints: string,
+    Rareness: string,
+    Happiness: string,
     Abilities: string,
-    HiddenAbility: string,
+    HiddenAbility?: string,
     Moves: string,
-    EggMoves: string[],
-    Compatibility: string[],
-    StepsToHatch: number,
-    Height: number,
-    Weight: number,
+    EggMoves?: string,
+    Compatibility: string,
+    StepsToHatch: string,
+    Height: string,
+    Weight: string,
     Color: string,
     Habitat: string,
-    RegionalNumbers: number,
+    RegionalNumbers: string,
     Kind: string,
     Pokedex: string,
-    BattlerPlayerY: number,
-    BattlerEnemyY: number,
-    BattlerAltitude: number,
-    Evolutions: (string | number)[]
+    BattlerPlayerY: string,
+    BattlerEnemyY: string,
+    BattlerAltitude: string,
+    Evolutions: string
 }
 
 interface PkmnMoves {
@@ -57,7 +57,6 @@ interface PkmnType {
 } 
 
 interface PokemonMessage { 
-    pokemonSelected: number; 
     team: Monster[]; 
     trainer: string; 
 }

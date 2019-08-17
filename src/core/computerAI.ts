@@ -19,7 +19,6 @@ export function getComputerAttack(moves: Attacks[], pkmnAlly: Monster): Attacks 
     const randomValue = Math.random();
     return moves.filter((move, i) => {
         let maxAttackVariant = 0.25 * (i + 1);
-        console.log(Types.getStrenghForPkmn(pkmnAlly.toPokemon()));
         if(Types.getWeaknessForPkmn(pkmnAlly.toPokemon()).find((type) => type == move.attType)) {
             maxAttackVariant += 0.2;
         } else if(Types.getStrenghForPkmn(pkmnAlly.toPokemon()).find((type) => type == move.attType)) {
@@ -29,4 +28,21 @@ export function getComputerAttack(moves: Attacks[], pkmnAlly: Monster): Attacks 
         }
         return randomValue < maxAttackVariant;
     })[0];
+}
+
+export function getComputerPokemon(team: Monster[], pkmnAlly: Monster) {
+    const randomValue = Math.random();
+    const pokemon = team.filter(pkmn => pkmn.stats.hp > 0).filter((pkmn, i, arr) => {
+        let maxPokemonVariant = (1 / arr.length) * (i + 1);
+        if(pkmnAlly.weakness.find((type) => pkmn.typing.filter(t => t == type).length > 0)) {
+            maxPokemonVariant += 0.33;
+        } else if(pkmnAlly.strength.find((type) => pkmn.typing.filter(t => t == type).length > 0)) {
+            maxPokemonVariant -= 0.33
+        } else if(pkmnAlly.inmunities.find((type) => pkmn.typing.filter(t => t == type).length > 0)) {
+            maxPokemonVariant -= 0.66
+        }
+        return randomValue < maxPokemonVariant;
+    })[0];
+    const index = team.map((pkmn, i) => (pkmn.name == pokemon.name) ? i : -1).find(index => index > -1);
+    return {pokemon, index}
 }
