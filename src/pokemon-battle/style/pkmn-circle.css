@@ -101,6 +101,18 @@
     top: 50vh;
     z-index: 10;
 }
+.hud .pokeball-list {
+    position: absolute;
+    top: -33px;
+    width: 185px;
+}
+.hud .pokeball-list .pokeball {
+    width: 25px;
+    margin-right: 2px;
+}
+.hud .pokeball-list .pokeball.disable {
+    filter: grayscale(100%);
+}
 @keyframes flicking {
     0% {
         opacity: 1;

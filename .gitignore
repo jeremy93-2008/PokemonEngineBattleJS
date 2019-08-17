@@ -3,3 +3,4 @@ assets
 lib
 .cache
 __*
+*.rb

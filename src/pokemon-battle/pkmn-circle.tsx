@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PkmnCircleProps, PkmnStateAnimation } from "./typing/pkmn-battle";
 import images from "../assets/normal/*.png";
 import back_images from "../assets/back/*.png";
+import pokeball from "../assets/pokeball.png";
 
 import "./style/pkmn-circle.css";
 import { AnimationAttack } from "./compositor/animation";
@@ -15,6 +16,9 @@ export function PokemonCircle(props: PkmnCircleProps) {
     return (
         <div className="pokemon-circle">
             <div className={`hud ${props.humain ? "human" : ""}`}>
+                <div className="pokeball-list">
+                    {props.team.map((pkmn) => <img className={`pokeball ${pkmn.stats.hp <= 0 ? "disable" : ""}`} src={pokeball}></img>)}
+                </div>
                 <div className="name">{pokemon.name}</div><div className="level">Lv {pokemon.level}</div> 
                 <div className={`hp-name ${props.humain ? "humain" : ""}`}>{props.humain ? "HP" : ""}
                     <div className={`hp-container ${props.humain ? "human" : ""}`}>

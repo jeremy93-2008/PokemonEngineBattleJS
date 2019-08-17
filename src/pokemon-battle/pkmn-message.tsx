@@ -11,7 +11,8 @@ import Monster from "../core/monster";
 export function reducerMessage(action: PkmnActionMessage, state: PkmnStateMessage): JSX.Element {
     switch (action) {
         case "Attack": return AttacksForUser(action, state);
-        case "MessageAttack": return MessageAttackUsed(action, state)
+        case "PokemonList": return PokemonListForUser(action, state);
+        case "MessageAttack": return MessageAttackUsed(action, state);
         case "MessageEffectiveness": return MessageAttackEffectiveness(action, state);
         case "MessageDamage": return MessageAttackDamage(action, state);
         case "MessageFainted": return MessageFainted(action, state);
@@ -26,10 +27,14 @@ function AttacksForUser(action: PkmnActionMessage, state: PkmnStateMessage): JSX
     const pokemonEnemySelected = battle.enemyPkmnIndex;
 
     dispatchAnimation(action, (state.human as boolean), (setAnimation as dispatchAnimaton));
-    return <>{ally.team[battle.allyPkmnIndex].attacks.map((att, i) =>
+    return <>
+    <button onClick={() => {
+        setMessage(reducerMessage("PokemonList", { ally, enemy, battle, setMessage, setAnimation, setEnemy, setAlly, human: false }));
+    }} className="change-pokemon">Change Pokemon</button>
+    {ally.team[battle.allyPkmnIndex].attacks.map((att, i) =>
         <div key={i} onClick={() => {
             (battle as Battle).selectPokemonToFight(pokemonAllySelected, pokemonEnemySelected);
-            const { damage, modifier } = (battle as Battle).humanRound(att);
+            const { damage, modifier } = battle.humanRound(att);
             setMessage(reducerMessage("MessageAttack", {
                 ally, enemy, attack: att, battle,
                 setAnimation, pokemonRound: { damage, modifier }, setMessage, human: true, setEnemy, setAlly
@@ -43,8 +48,10 @@ function MessageAttackUsed(action: PkmnActionMessage, state: PkmnStateMessage) {
 
     const pkmnMessage = (state.human) ? ally : enemy;
     const pkmnIndex = (state.human) ? battle.allyPkmnIndex : battle.enemyPkmnIndex;
+    
+    if((pokemonRound as PkmnRoundMessage).damage > 0)
+        dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
 
-    dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
     return Message(`¡${pkmnMessage.team[pkmnIndex].name} ha usado ${(attack as Attacks).name}!`, () => {
         setMessage(reducerMessage("MessageEffectiveness", { attack, battle, ally, enemy, pokemonRound, setMessage, setAnimation, human, setEnemy, setAlly }));
     });
@@ -110,9 +117,10 @@ function MessageAttackDamage(action: PkmnActionMessage, state: PkmnStateMessage)
     });
 }
 /// TODO: Animacion cambio Pokemon - M
-///       Pokeballs visibles - S
+///       Cambiar Pokemon cuando quieras - S
+///       Pokeballs visibles - S - x
 ///       Poner final - S
-///       La animacion no debe ejecutarse cuando el daño es nulo - XS
+///       La animacion no debe ejecutarse cuando el daño es nulo - XS x
 ///       Integrar status y recarga en general de estos - L
 function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
     const { ally, enemy, battle, setMessage,
@@ -126,6 +134,33 @@ function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
     
     return Message(<div>
         {`${pkmn.name} ${enemigo} se ha debilitado.`}
+        </div>, () => {
+            if(!human) {
+                setMessage(reducerMessage("PokemonList", { ally, enemy, battle, setMessage,
+                    setAnimation, pokemonRound, human, setEnemy, setAlly }));
+                return;            
+            }
+
+            const nextMonster = getComputerPokemon(enemy.team, ally.team[battle.allyPkmnIndex]);
+            battle.clearEnemyAttack();
+            battle.selectPokemonToFight(battle.allyPkmnIndex, (nextMonster.index as number));
+            setMessage(reducerMessage("Attack", {ally, enemy, battle,
+                setMessage, setAnimation, setAlly, setEnemy}));
+            
+        });
+}
+
+function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) {
+    const { ally, enemy, battle, setMessage,
+        setAnimation, pokemonRound, human, setEnemy, setAlly } = state;
+
+    const pkmn = (state.human) ? enemy.team[battle.enemyPkmnIndex] : ally.team[battle.allyPkmnIndex];
+    const enemigo = (human) ? "enemigo" : "";
+    const teamPokemonFainted = ally.team.map(monster => (monster.stats.hp == 0) ? monster.toPokemon() : null).filter(p => p);
+
+    dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
+
+    return Message(<div>
         {(!human) && <>
             <p>Selecciona otro pokemon</p> 
             <PokemonList pkmns={ally.team} details={{hp: true}} disabled={(teamPokemonFainted as PokemonObject[])} 
@@ -133,18 +168,18 @@ function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
                     const nextMonster = pkmn as Monster;
                     const index = ally.team.map((pkmn, i) => (pkmn.name == nextMonster.name) ? i : -1).find(index => index > -1);
                     battle.selectPokemonToFight((index as number), battle.enemyPkmnIndex);
+                    if(!state.human) {
+                        const { attack, damage, modifier } = (battle as Battle).computerRound();
+                        setMessage(reducerMessage("MessageAttack", {
+                            ally, enemy, battle, attack,
+                            setMessage, setAnimation, pokemonRound: { damage, modifier }, human: state.human, setAlly, setEnemy
+                        }));
+                        return;
+                    }
                     setMessage(reducerMessage("Attack", {ally, enemy, battle,
                             setMessage, setAnimation, setAlly, setEnemy}));
         }}></PokemonList></>}
-        </div>, () => {
-            if(state.human) {
-                const nextMonster = getComputerPokemon(enemy.team, ally.team[battle.allyPkmnIndex]);
-                battle.clearEnemyAttack();
-                battle.selectPokemonToFight(battle.allyPkmnIndex, (nextMonster.index as number));
-                setMessage(reducerMessage("Attack", {ally, enemy, battle,
-                    setMessage, setAnimation, setAlly, setEnemy}));
-            }
-        });
+        </div>, () => {});
 }
 
 /**

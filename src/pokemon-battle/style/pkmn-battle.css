@@ -30,6 +30,9 @@
     border-bottom: none;
     text-align: center;
 }
+.messageContainer > div:not(.att) {
+    height: 90%;
+}
 .messageContainer .att {
     display: inline-block;
     font-size: 4vh;
@@ -46,6 +49,7 @@
 }
 .pokemon-each-fainted {
     width: 125px;
+    height: 120px;
 }
 .pokemon-each-fainted img {
     width: 5vw;
@@ -57,10 +61,24 @@
 .pokemon-list-fainted .hp-container {
     background: #333;
     width: 6vw;
-    left: 1vw;
+    left: 0.8vw;
     margin-top: 2px;
 }
 .pokemon-list-fainted .hp-container .hp-value {
     background: green;
     height: 100%;
+}
+.change-pokemon {
+    position: absolute;
+    top: -40px;
+    right: 0vw;
+    border: solid 2px #16325e;
+    border-radius: 10px;
+    background-color: #1f4889;
+    color: #eee;
+    padding: 5px 10px;
+    z-index: 1;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
 }

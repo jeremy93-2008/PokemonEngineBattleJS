@@ -24,6 +24,7 @@ export function PokemonList(props: PokemonListProps) {
             {(pkmnList as Monster[]).map((pkmn, i) => {
                 const image = images[pkmn.name];
                 const isDisabled = (props.disabled) ? props.disabled.filter(d => d.Name == pkmn.name).length > 0 : false;
+                const percentage = pkmn.stats.hp * 100 / pkmn.maxHP;
                 return <button onClick={() => {
                     props.onClick(pkmn)
                 }} key={i} 
@@ -32,7 +33,7 @@ export function PokemonList(props: PokemonListProps) {
                     <br />
                     {pkmn.name}
                     {props.details && props.details.hp && <div className="hp-container">
-                        <div style={{width: pkmn.stats.hp * 100 / pkmn.maxHP + "%"}} className="hp-value"></div>
+                        <div style={{width: percentage + "%", backgroundColor: percentage < 20 ? "red" : percentage < 40 ? "orange" : "green"}} className="hp-value"></div>
                     </div>}
                 </button>
             })}
