@@ -9,14 +9,14 @@ import { Battle } from "../core/battle";
 import { reducerMessage } from "./pkmn-message";
 
 export function PokemonBattle(props: RouteComponentProps) {
-    const { terrain, pkmns } = props as unknown as PkmnBattleProps;
+    const { terrain, pkmns, trainers } = props as unknown as PkmnBattleProps;
     const [ally, setAlly] = useState({
         team: pkmns.you,
-        trainer: ""
+        trainer: trainers.you
     });
     const [enemy, setEnemy] = useState({
         team: pkmns.her,
-        trainer: ""
+        trainer: trainers.her
     });
 
     const [battle] = useState(new Battle(ally.team, enemy.team));

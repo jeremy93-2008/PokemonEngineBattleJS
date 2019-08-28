@@ -1,5 +1,4 @@
 import React from "react";
-import listPokemon from "../info/pokemon.json";
 import images from "../assets/normal/*.png";
 
 import { PokemonObject } from "./typing/pkmn.def";

@@ -16,6 +16,8 @@ export function reducerMessage(action: PkmnActionMessage, state: PkmnStateMessag
         case "MessageEffectiveness": return MessageAttackEffectiveness(action, state);
         case "MessageDamage": return MessageAttackDamage(action, state);
         case "MessageFainted": return MessageFainted(action, state);
+        case "MessagePokemonChanged": return MessagePokemonChanged(action, state);
+        case "MessagePokemonUser": return MessagePokemonUserChange(action, state);
         default: return AttacksForUser(action, state);
     }
 }
@@ -117,10 +119,10 @@ function MessageAttackDamage(action: PkmnActionMessage, state: PkmnStateMessage)
     });
 }
 /// TODO: Animacion cambio Pokemon - M
-///       Cambiar Pokemon cuando quieras - S
+///       Cambiar Pokemon cuando quieras - S - x
 ///       Pokeballs visibles - S - x
 ///       Poner final - S
-///       La animacion no debe ejecutarse cuando el daño es nulo - XS x
+///       La animacion no debe ejecutarse cuando el daño es nulo - XS - x
 ///       Integrar status y recarga en general de estos - L
 function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
     const { ally, enemy, battle, setMessage,
@@ -129,12 +131,19 @@ function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
     const pkmn = (state.human) ? enemy.team[battle.enemyPkmnIndex] : ally.team[battle.allyPkmnIndex];
     const enemigo = (human) ? "enemigo" : "";
     const teamPokemonFainted = ally.team.map(monster => (monster.stats.hp == 0) ? monster.toPokemon() : null).filter(p => p);
+    const teamEnemyPokemonFainted = enemy.team.map(monster => (monster.stats.hp == 0) ? monster.toPokemon() : null).filter(p => p);
+
+    const isOver = teamPokemonFainted.length >= ally.team.length || teamEnemyPokemonFainted.length >= enemy.team.length;
 
     dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
     
     return Message(<div>
         {`${pkmn.name} ${enemigo} se ha debilitado.`}
         </div>, () => {
+            if(isOver) {
+                location.reload();
+            }
+
             if(!human) {
                 setMessage(reducerMessage("PokemonList", { ally, enemy, battle, setMessage,
                     setAnimation, pokemonRound, human, setEnemy, setAlly }));
@@ -144,10 +153,56 @@ function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
             const nextMonster = getComputerPokemon(enemy.team, ally.team[battle.allyPkmnIndex]);
             battle.clearEnemyAttack();
             battle.selectPokemonToFight(battle.allyPkmnIndex, (nextMonster.index as number));
-            setMessage(reducerMessage("Attack", {ally, enemy, battle,
-                setMessage, setAnimation, setAlly, setEnemy}));
+            setMessage(reducerMessage("MessagePokemonChanged", {ally, enemy, battle,
+                setMessage, setAnimation, setAlly, setEnemy, human}));
             
         });
+}
+
+function MessagePokemonChanged(action: PkmnActionMessage, state: PkmnStateMessage) {
+    const { ally, enemy, battle, setMessage,
+        setAnimation, pokemonRound, human, setEnemy, setAlly } = state;   
+        
+    const pkmn = enemy.team[battle.enemyPkmnIndex];
+
+    dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
+
+    return <div>
+        {`${enemy.trainer} envía a ${pkmn.name}`}
+        <br /><br />
+        {`¿Quieres cambiar de pokemon?`}
+        <br /><br />
+        {["Sí","No"].map(text => <div onClick={() => {
+            if(text == "No") {
+                setMessage(reducerMessage("Attack", {ally, enemy, battle,
+                setMessage, setAnimation, setAlly, setEnemy, human}))
+                return;
+            }
+            setMessage(reducerMessage("PokemonList", {ally, enemy, battle,
+                setMessage, setAnimation, setAlly, setEnemy, human, pokemonRound}));
+        }} className="att">{text}</div>)}
+    </div>; 
+}
+
+function MessagePokemonUserChange(action: PkmnActionMessage, state: PkmnStateMessage) {
+    const { ally, enemy, battle, setMessage,
+        setAnimation, pokemonRound, attack, setEnemy, setAlly } = state;   
+        
+    const pkmn = ally.team[battle.allyPkmnIndex];
+
+    dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
+    
+    return Message(`${ally.trainer} envía a ${pkmn.name}`, () => {
+        if(state.human) {
+            setMessage(reducerMessage("MessageAttack", {
+                ally, enemy, battle, attack,
+                setMessage, setAnimation, pokemonRound, human: state.human, setAlly, setEnemy
+            }))
+            return;    
+        }
+        setMessage(reducerMessage("Attack", {ally, enemy, battle,
+            setMessage, setAnimation, setAlly, setEnemy}));
+    })
 }
 
 function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) {
@@ -161,7 +216,7 @@ function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) 
     dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
 
     return Message(<div>
-        {(!human) && <>
+        {<>
             <p>Selecciona otro pokemon</p> 
             <PokemonList pkmns={ally.team} details={{hp: true}} disabled={(teamPokemonFainted as PokemonObject[])} 
                 className="pokemon-list-fainted" classForCell="pokemon-each-fainted" onClick={(pkmn) => {
@@ -170,7 +225,7 @@ function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) 
                     battle.selectPokemonToFight((index as number), battle.enemyPkmnIndex);
                     if(!state.human) {
                         const { attack, damage, modifier } = (battle as Battle).computerRound();
-                        setMessage(reducerMessage("MessageAttack", {
+                        setMessage(reducerMessage("MessagePokemonUser", {
                             ally, enemy, battle, attack,
                             setMessage, setAnimation, pokemonRound: { damage, modifier }, human: state.human, setAlly, setEnemy
                         }));

@@ -43,6 +43,6 @@ export function getComputerPokemon(team: Monster[], pkmnAlly: Monster) {
         }
         return randomValue < maxPokemonVariant;
     })[0];
-    const index = team.map((pkmn, i) => (pkmn.name == pokemon.name) ? i : -1).find(index => index > -1);
+    const index = team.findIndex((pkmn) => pkmn.name == pokemon.name);
     return {pokemon, index}
 }

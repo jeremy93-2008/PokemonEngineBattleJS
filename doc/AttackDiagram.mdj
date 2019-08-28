@@ -13716,8 +13716,8 @@
 										"$ref": "AAAAAAFsmYjb4IAs5lE="
 									},
 									"font": "Arial;13;0",
-									"left": 506,
-									"top": 194,
+									"left": 658,
+									"top": 146,
 									"width": 96.10986328125,
 									"height": 13,
 									"text": "MessageFainted",
@@ -13725,8 +13725,8 @@
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 496,
-							"top": 184,
+							"left": 648,
+							"top": 136,
 							"width": 116.10986328125,
 							"height": 33,
 							"nameLabel": {
@@ -14095,8 +14095,8 @@
 										"$ref": "AAAAAAFsmY3YEIDMcik="
 									},
 									"font": "Arial;13;0",
-									"left": 528,
-									"top": 234,
+									"left": 680,
+									"top": 189,
 									"width": 21.20751953125,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -14116,7 +14116,7 @@
 								"$ref": "AAAAAAFsmY0Dy4CkIK8="
 							},
 							"lineStyle": 2,
-							"points": "656:241;553:241;553:216",
+							"points": "705:224;705:168",
 							"nameLabel": {
 								"$ref": "AAAAAAFsmY3YEIDPjDU="
 							}
@@ -14138,7 +14138,7 @@
 										"$ref": "AAAAAAFsmY4rLIDYW0o="
 									},
 									"font": "Arial;13;0",
-									"left": 236.542236328125,
+									"left": 276.542236328125,
 									"top": 211.5,
 									"width": 57.08447265625,
 									"height": 39,
@@ -14147,7 +14147,7 @@
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 208,
+							"left": 248,
 							"top": 192,
 							"width": 114.1689453125,
 							"height": 78,
@@ -14175,7 +14175,7 @@
 										"$ref": "AAAAAAFsmY9W94DwrrA="
 									},
 									"font": "Arial;13;0",
-									"left": 479,
+									"left": 499,
 									"top": 266,
 									"width": 16.6181640625,
 									"height": 13,
@@ -14196,7 +14196,7 @@
 								"$ref": "AAAAAAFsmY0Dy4CkIK8="
 							},
 							"lineStyle": 2,
-							"points": "656:257;321:257",
+							"points": "656:257;361:257",
 							"nameLabel": {
 								"$ref": "AAAAAAFsmY9W94DzcNA="
 							}
@@ -14221,7 +14221,7 @@
 										"$ref": "AAAAAAFsmZBrrYD6uNc="
 									},
 									"font": "Arial;13;0",
-									"left": 161,
+									"left": 181,
 									"top": 257,
 									"width": 21.20751953125,
 									"height": 13,
@@ -14242,7 +14242,7 @@
 								"$ref": "AAAAAAFsmY4rLIDYW0o="
 							},
 							"lineStyle": 2,
-							"points": "208:248;137:248",
+							"points": "248:248;137:248",
 							"nameLabel": {
 								"$ref": "AAAAAAFsmZBrrYD9ex4="
 							}
@@ -14310,8 +14310,8 @@
 										"$ref": "AAAAAAFsmaMD75y+xFE="
 									},
 									"font": "Arial;13;0",
-									"left": 386,
-									"top": 170,
+									"left": 514,
+									"top": 138,
 									"width": 54.919921875,
 									"height": 26,
 									"text": "Change Pokemon",
@@ -14319,8 +14319,8 @@
 								}
 							],
 							"font": "Arial;13;0",
-							"left": 376,
-							"top": 160,
+							"left": 504,
+							"top": 128,
 							"width": 74.919921875,
 							"height": 46,
 							"nameLabel": {
@@ -14348,8 +14348,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 472,
-									"top": 201,
+									"left": 612,
+									"top": 161,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -14367,54 +14367,9 @@
 								"$ref": "AAAAAAFsmYjb4IAs5lE="
 							},
 							"lineStyle": 2,
-							"points": "496:192;450:192",
+							"points": "648:152;578:152",
 							"nameLabel": {
 								"$ref": "AAAAAAFsmaNK4pzJTlA="
-							}
-						},
-						{
-							"_type": "FCFlowView",
-							"_id": "AAAAAAFsmaRtw5z/Ebc=",
-							"_parent": {
-								"$ref": "AAAAAAFsmYau6X/mgU4="
-							},
-							"model": {
-								"$ref": "AAAAAAFsmaRtw5z90E8="
-							},
-							"subViews": [
-								{
-									"_type": "EdgeLabelView",
-									"_id": "AAAAAAFsmaRtw50AhU0=",
-									"_parent": {
-										"$ref": "AAAAAAFsmaRtw5z/Ebc="
-									},
-									"model": {
-										"$ref": "AAAAAAFsmaRtw5z90E8="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"left": 375,
-									"top": 220,
-									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 15,
-									"hostEdge": {
-										"$ref": "AAAAAAFsmaRtw5z/Ebc="
-									},
-									"edgePosition": 1
-								}
-							],
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAFsmY4rLIDYW0o="
-							},
-							"tail": {
-								"$ref": "AAAAAAFsmaMD75y+xFE="
-							},
-							"lineStyle": 2,
-							"points": "376:205;376:211;321:211",
-							"nameLabel": {
-								"$ref": "AAAAAAFsmaRtw50AhU0="
 							}
 						},
 						{
@@ -14439,7 +14394,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 88,
-									"top": 155,
+									"top": 129,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -14457,9 +14412,133 @@
 								"$ref": "AAAAAAFsmYa/CH/sOBU="
 							},
 							"lineStyle": 2,
-							"points": "88:240;88:176;376:176",
+							"points": "88:240;88:150;504:150",
 							"nameLabel": {
 								"$ref": "AAAAAAFsmaSoUp0JSwU="
+							}
+						},
+						{
+							"_type": "FCFlowView",
+							"_id": "AAAAAAFs14jgexHgf4w=",
+							"_parent": {
+								"$ref": "AAAAAAFsmYau6X/mgU4="
+							},
+							"model": {
+								"$ref": "AAAAAAFs14jgexHeKiQ="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFs14jgexHhXHw=",
+									"_parent": {
+										"$ref": "AAAAAAFs14jgexHgf4w="
+									},
+									"model": {
+										"$ref": "AAAAAAFs14jgexHeKiQ="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 559,
+									"top": 225,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFs14jgexHgf4w="
+									},
+									"edgePosition": 1
+								}
+							],
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAFs2JHLhJep0tw="
+							},
+							"tail": {
+								"$ref": "AAAAAAFsmaMD75y+xFE="
+							},
+							"lineStyle": 2,
+							"points": "560:173;560:216;522:216",
+							"nameLabel": {
+								"$ref": "AAAAAAFs14jgexHhXHw="
+							}
+						},
+						{
+							"_type": "FCProcessView",
+							"_id": "AAAAAAFs2JHLhJep0tw=",
+							"_parent": {
+								"$ref": "AAAAAAFsmYau6X/mgU4="
+							},
+							"model": {
+								"$ref": "AAAAAAFs2JHLhJenIWE="
+							},
+							"subViews": [
+								{
+									"_type": "LabelView",
+									"_id": "AAAAAAFs2JHLhJeqCJ4=",
+									"_parent": {
+										"$ref": "AAAAAAFs2JHLhJep0tw="
+									},
+									"font": "Arial;13;0",
+									"left": 458,
+									"top": 202,
+									"width": 54.919921875,
+									"height": 39,
+									"text": "Message Pokemon Change",
+									"wordWrap": true
+								}
+							],
+							"font": "Arial;13;0",
+							"left": 448,
+							"top": 192,
+							"width": 74.919921875,
+							"height": 59,
+							"nameLabel": {
+								"$ref": "AAAAAAFs2JHLhJeqCJ4="
+							}
+						},
+						{
+							"_type": "FCFlowView",
+							"_id": "AAAAAAFs2JOuK5e7t+w=",
+							"_parent": {
+								"$ref": "AAAAAAFsmYau6X/mgU4="
+							},
+							"model": {
+								"$ref": "AAAAAAFs2JOuK5e5UYk="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFs2JOuK5e8J3k=",
+									"_parent": {
+										"$ref": "AAAAAAFs2JOuK5e7t+w="
+									},
+									"model": {
+										"$ref": "AAAAAAFs2JOuK5e5UYk="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 403,
+									"top": 230,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFs2JOuK5e7t+w="
+									},
+									"edgePosition": 1
+								}
+							],
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAFsmY4rLIDYW0o="
+							},
+							"tail": {
+								"$ref": "AAAAAAFs2JHLhJep0tw="
+							},
+							"lineStyle": 2,
+							"points": "448:221;361:221",
+							"nameLabel": {
+								"$ref": "AAAAAAFs2JOuK5e8J3k="
 							}
 						}
 					]
@@ -14718,12 +14797,35 @@
 					"ownedElements": [
 						{
 							"_type": "FCFlow",
-							"_id": "AAAAAAFsmaRtw5z90E8=",
+							"_id": "AAAAAAFs14jgexHeKiQ=",
 							"_parent": {
 								"$ref": "AAAAAAFsmaMD75y83eI="
 							},
 							"source": {
 								"$ref": "AAAAAAFsmaMD75y83eI="
+							},
+							"target": {
+								"$ref": "AAAAAAFs2JHLhJenIWE="
+							}
+						}
+					]
+				},
+				{
+					"_type": "FCProcess",
+					"_id": "AAAAAAFs2JHLhJenIWE=",
+					"_parent": {
+						"$ref": "AAAAAAFsmYau6X/lZeA="
+					},
+					"name": "Message Pokemon Change",
+					"ownedElements": [
+						{
+							"_type": "FCFlow",
+							"_id": "AAAAAAFs2JOuK5e5UYk=",
+							"_parent": {
+								"$ref": "AAAAAAFs2JHLhJenIWE="
+							},
+							"source": {
+								"$ref": "AAAAAAFs2JHLhJenIWE="
 							},
 							"target": {
 								"$ref": "AAAAAAFsmY4rLIDWcCY="

@@ -53,8 +53,8 @@ export function PokemonChoose() {
                     her: PokemonTeamForEnemy(pkmnList, level)
                 },
                 trainers: {
-                    you: "",
-                    her: ""
+                    you: "Entrenador Red",
+                    her: "Lider de Gimnasio Brock"
                 }
             }
         }} className="fight">Fight!</Link>}

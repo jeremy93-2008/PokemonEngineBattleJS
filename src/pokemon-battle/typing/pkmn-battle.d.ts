@@ -46,6 +46,7 @@ type dispatchAnimaton = React.Dispatch<React.SetStateAction<PkmnStateAnimation>>
 
 type PkmnRoundMessage = { damage: number, modifier: number, attack?: Attacks }
 
-type PkmnActionMessage = "Attack" | "PokemonList" | "MessageAttack" | "MessageEffectiveness" | "MessageDamage" | "MessageFainted";
+type PkmnActionMessage = "Attack" | "PokemonList" | "MessageAttack" | "MessageEffectiveness" |
+                        "MessageDamage" | "MessageFainted" | "MessagePokemonChanged" | "MessagePokemonUser";
 
 type PkmnBattleTerrain = "grass" | "city" | "ocean" | "mountain";
