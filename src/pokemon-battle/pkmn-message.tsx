@@ -31,7 +31,7 @@ function AttacksForUser(action: PkmnActionMessage, state: PkmnStateMessage): JSX
     dispatchAnimation(action, (state.human as boolean), (setAnimation as dispatchAnimaton));
     return <>
     <button onClick={() => {
-        setMessage(reducerMessage("PokemonList", { ally, enemy, battle, setMessage, setAnimation, setEnemy, setAlly, human: false }));
+        setMessage(reducerMessage("PokemonList", { ally, enemy, battle, setMessage, setAnimation, setEnemy, setAlly, human: false, pkmnStrategicChange: true }));
     }} className="change-pokemon">Change Pokemon</button>
     {ally.team[battle.allyPkmnIndex].attacks.map((att, i) =>
         <div key={i} onClick={() => {
@@ -179,24 +179,25 @@ function MessagePokemonChanged(action: PkmnActionMessage, state: PkmnStateMessag
                 return;
             }
             setMessage(reducerMessage("PokemonList", {ally, enemy, battle,
-                setMessage, setAnimation, setAlly, setEnemy, human, pokemonRound}));
+                setMessage, setAnimation, setAlly, setEnemy, human, pokemonRound, pkmnRoundChange: true}));
         }} className="att">{text}</div>)}
     </div>; 
 }
 
 function MessagePokemonUserChange(action: PkmnActionMessage, state: PkmnStateMessage) {
     const { ally, enemy, battle, setMessage,
-        setAnimation, pokemonRound, attack, setEnemy, setAlly } = state;   
+        setAnimation, setEnemy, setAlly } = state;   
         
     const pkmn = ally.team[battle.allyPkmnIndex];
 
     dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
     
     return Message(`${ally.trainer} envía a ${pkmn.name}`, () => {
-        if(state.human) {
+        if(!state.pkmnRoundChange && state.human || state.pkmnStrategicChange) {
+            const { attack, damage, modifier } = (battle as Battle).computerRound();
             setMessage(reducerMessage("MessageAttack", {
                 ally, enemy, battle, attack,
-                setMessage, setAnimation, pokemonRound, human: state.human, setAlly, setEnemy
+                setMessage, setAnimation, pokemonRound: {damage, modifier}, human: false, setAlly, setEnemy, pkmnStrategicChange: false
             }))
             return;    
         }
@@ -207,10 +208,8 @@ function MessagePokemonUserChange(action: PkmnActionMessage, state: PkmnStateMes
 
 function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) {
     const { ally, enemy, battle, setMessage,
-        setAnimation, pokemonRound, human, setEnemy, setAlly } = state;
+        setAnimation, setEnemy, setAlly, pkmnStrategicChange, pkmnRoundChange } = state;
 
-    const pkmn = (state.human) ? enemy.team[battle.enemyPkmnIndex] : ally.team[battle.allyPkmnIndex];
-    const enemigo = (human) ? "enemigo" : "";
     const teamPokemonFainted = ally.team.map(monster => (monster.stats.hp == 0) ? monster.toPokemon() : null).filter(p => p);
 
     dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
@@ -223,16 +222,10 @@ function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) 
                     const nextMonster = pkmn as Monster;
                     const index = ally.team.map((pkmn, i) => (pkmn.name == nextMonster.name) ? i : -1).find(index => index > -1);
                     battle.selectPokemonToFight((index as number), battle.enemyPkmnIndex);
-                    if(!state.human) {
-                        const { attack, damage, modifier } = (battle as Battle).computerRound();
-                        setMessage(reducerMessage("MessagePokemonUser", {
-                            ally, enemy, battle, attack,
-                            setMessage, setAnimation, pokemonRound: { damage, modifier }, human: state.human, setAlly, setEnemy
-                        }));
-                        return;
-                    }
-                    setMessage(reducerMessage("Attack", {ally, enemy, battle,
-                            setMessage, setAnimation, setAlly, setEnemy}));
+                    setMessage(reducerMessage("MessagePokemonUser", {
+                            ally, enemy, battle,
+                            setMessage, setAnimation, pkmnStrategicChange, human: state.human, setAlly, setEnemy, pkmnRoundChange
+                    }));
         }}></PokemonList></>}
         </div>, () => {});
 }

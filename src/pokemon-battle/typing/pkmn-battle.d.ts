@@ -35,6 +35,8 @@ interface PkmnStateMessage {
     pokemonRound?: PkmnRoundMessage;
     attack?: Attacks;
     human?: boolean;
+    pkmnStrategicChange?: boolean;
+    pkmnRoundChange?: boolean;
 }
 
 interface PkmnStateAnimation extends AnimationProps {
