@@ -13,7 +13,7 @@ import { Types } from "../core/types";
 import { pkmnAttacks } from "../core/pkmnAttacks";
 import { Link } from "react-router-dom";
 import { PokemonObject } from "./typing/pkmn.def";
-import uniqueRandom from "unique-random";
+import sampleSize from "lodash.samplesize";
 import { PokemonList } from "./pkmn-list";
 
 export function PokemonChoose() {
@@ -90,8 +90,7 @@ function addPokemon(pkmn: PokemonObject, pokemonChosen: Monster[] | null[], inde
 }
 
 function PokemonTeamForEnemy(pkmns: PokemonObject[], level: number): Monster[] {
-    const unique = uniqueRandom(0, pkmns.length - 1);
-    const pokemonEnemy = [pkmns[unique()], pkmns[unique()], pkmns[unique()], pkmns[unique()], pkmns[unique()], pkmns[unique()]];
+    const pokemonEnemy = sampleSize(pkmns, 6)
     return pokemonEnemy.map(pkmn => {
         const base = pkmn.BaseStats.split(",");
 

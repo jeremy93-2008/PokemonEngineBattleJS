@@ -1,6 +1,6 @@
 import Monster from "./monster";
 import Attacks from "./attack";
-import uniqueRandom = require("unique-random");
+import randomGenerator from "lodash.random";
 import { pkmnAttacks } from "./pkmnAttacks";
 import { getComputerAttack } from "./computerAI";
 
@@ -39,12 +39,11 @@ export class Battle {
   }
 
   makeAttack(attacker: Monster, defender: Monster, attack: Attacks) {
-    const random = uniqueRandom(85, 100);
     let attPower;
     let defPower;
     let modifier = 1;
     let bonification = 1;
-    let variant = random() / 100;
+    let variant = randomGenerator(85, 100) / 100;
     if (attack.attType == "Special") {
       attPower = attacker.stats.matt;
       defPower = defender.stats.mdef;

@@ -1,5 +1,5 @@
 import movesJSON from "../info/moves.json";
-import uniqueRandom from "unique-random";
+import sampleSize from "lodash.samplesize";
 import Attacks from "./attack";
 import { PokemonObject, Moves, PkmnMoves } from "../pokemon-battle/typing/pkmn.def.js";
 
@@ -15,8 +15,7 @@ export class pkmnAttacks {
     private static getRandomAttacks(pkmn: PokemonObject, level?: number, aggressive?: boolean) {
         const moves = this.getAvailablePkmnMoves(pkmn, level) as Moves;
         const movesExtended = this.getAttackData(moves, aggressive);
-        const random = uniqueRandom(0, movesExtended.length - 1);
-        return [movesExtended[random()], movesExtended[random()], movesExtended[random()], movesExtended[random()]]
+        return sampleSize(movesExtended, 4)
     }
 
     private static getAttackData(moves: Moves, aggressive?: boolean) {
