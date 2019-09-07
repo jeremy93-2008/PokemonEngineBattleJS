@@ -10,25 +10,39 @@ interface PkmnBattleProps {
         her: Monster[]
     },
     trainers: {
-        you: string;
-        her: string;
+        you: PkmnTrainerProps;
+        her: PkmnTrainerProps;
     }
+}
+
+interface PkmnTrainerProps {
+    name: string;
+    sprite: string;
+}
+
+interface PkmnMessage {
+    render: JSX.Element;
+    action: PkmnActionMessage;
+    state: PkmnStateMessage | undefined;
 }
 
 interface PkmnCircleProps {
     terrain: PkmnBattleTerrain,
     team: Monster[],
-    trainer: string,
+    trainer: PkmnTrainerProps,
     humain: boolean,
     pokemonSelected: number,
-    animation?: PkmnStateAnimation
+    animation?: PkmnStateAnimation,
+    beginBattle: boolean,
+    action: PkmnActionMessage,
+    isHumanTurn: boolean
 }
 
 interface PkmnStateMessage {
     ally: PokemonMessage,
     enemy: PokemonMessage,
     battle: Battle;
-    setMessage:  React.Dispatch<React.SetStateAction<JSX.Element>>;
+    setMessage:  React.Dispatch<React.SetStateAction<PkmnMessage>>;
     setAlly?: React.Dispatch<React.SetStateAction<PokemonMessage>>;
     setEnemy?: React.Dispatch<React.SetStateAction<PokemonMessage>>;
     setAnimation?: React.Dispatch<React.SetStateAction<PkmnStateAnimation | undefined>>;
@@ -37,6 +51,7 @@ interface PkmnStateMessage {
     human?: boolean;
     pkmnStrategicChange?: boolean;
     pkmnRoundChange?: boolean;
+    beginBattle?: boolean;
 }
 
 interface PkmnStateAnimation extends AnimationProps {
@@ -48,7 +63,7 @@ type dispatchAnimaton = React.Dispatch<React.SetStateAction<PkmnStateAnimation>>
 
 type PkmnRoundMessage = { damage: number, modifier: number, attack?: Attacks }
 
-type PkmnActionMessage = "Attack" | "PokemonList" | "MessageAttack" | "MessageEffectiveness" |
-                        "MessageDamage" | "MessageFainted" | "MessagePokemonChanged" | "MessagePokemonUser";
+type PkmnActionMessage = "Attack" | "PokemonList" | "MessageAttack" | "MessageEffectiveness" | "MessageStart" |
+                        "MessageDamage" | "MessageFainted" | "MessagePokemonChanged" | "MessagePokemonUser" | undefined | null;
 
 type PkmnBattleTerrain = "grass" | "city" | "ocean" | "mountain";

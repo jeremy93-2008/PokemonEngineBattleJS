@@ -30,15 +30,29 @@ export function PokemonCircle(props: PkmnCircleProps) {
                 {props.humain && <div className="hp-number">{(pokemon.stats.hp).toFixed(0)}/{pokemon.maxHP}</div>}
             </div>
             {doAnimation(animation as PkmnStateAnimation)}
+            {props.trainer.sprite && <div className={getTrainerClassName(props)}><img src={props.trainer.sprite}></img></div>}
             <div className={getPkmnClassName(props)}><img src={(props.humain) ? back_images[pokemon.name] : images[pokemon.name]}></img></div>
         </div>
     );
 }
 
+function getTrainerClassName(props: PkmnCircleProps): string | undefined {
+    let className = "trainer";
+    if(props.humain) className += " human";
+    if(props.beginBattle) className += " endAnimationTrainer";
+    else if(!props.beginBattle && props.action && props.action != "MessageStart") className += " invisible";
+    return className;
+}
+
 function getPkmnClassName(props: PkmnCircleProps): string | undefined {
     let className = "pokemon";
     if(props.humain) className += " human";
-    if(props.animation && props.animation.messageType == "MessageAttack") className += " animate"
+    if(props.animation && props.animation.messageType == "MessageAttack") className += " animate";
+    if(props.team[props.pokemonSelected].stats.hp <= 0 && props.action == "MessageFainted") className += " fainted";
+    if(props.team[props.pokemonSelected].stats.hp <= 0 && props.action == "PokemonList") className += " invisible"
+    if(props.beginBattle || (props.action == "MessagePokemonUser" && props.humain)
+        || (props.action == "MessagePokemonChanged" && !props.humain)) className += " startAnimation";
+    else if(!props.beginBattle && props.action && props.action != "MessageStart") className += " visible";
     return className;
 }
 

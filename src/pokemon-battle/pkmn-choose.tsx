@@ -5,6 +5,7 @@ import Monster from "../core/monster";
 import logo from "../assets/logo.png";
 import pkmnImage from "../assets/pokeball.png";
 import images from "../assets/normal/*.png";
+import trainers from "../assets/trainer/*.png";
 
 import listPokemon from "../info/pokemon.json";
 
@@ -53,8 +54,14 @@ export function PokemonChoose() {
                     her: PokemonTeamForEnemy(pkmnList, level)
                 },
                 trainers: {
-                    you: "Entrenador Red",
-                    her: "Lider de Gimnasio Brock"
+                    you:  {
+                        name: "Entrenador Red",
+                        sprite: trainers["icon-back-1"]
+                    },
+                    her: {
+                        name: "Lider de Gimnasio Brock",
+                        sprite: trainers["icons-2"]
+                    }
                 }
             }
         }} className="fight">Fight!</Link>}

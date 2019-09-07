@@ -8,6 +8,7 @@
     top: 12vh;
     height: 11vh;
     box-shadow: 0 0 10px gray;
+    animation: stageStart 1s linear;
 }
 .hud.human {
     left: 54vw;
@@ -15,6 +16,7 @@
     height: 13vh;
     top: initial;
     position: absolute;
+    animation: stageStartHuman 1s linear;
 }
 .hud div {
     display: inline-block;
@@ -47,6 +49,7 @@
     height: 100%;
     position: absolute;
     top: 0px;
+    transition: width .4s linear;
 }
 .hud div.hp-number {
     display: block;
@@ -69,12 +72,57 @@
 .hud div.hp-name.humain {
     width: 13.75vw;
 }
+.trainer {
+    right: 25vw;
+    top: 14vh;
+    position: absolute;
+    z-index: 3;
+    animation: trainerStart .7s linear;
+}
+.trainer.human {
+    top: initial;
+    right: initial;
+    left: 25vw;
+    bottom: 32vh;
+    animation: trainerStartHuman .7s linear;
+}
+.trainer img {
+    width: 8vw;
+}
+.pokemon-circle .trainer.endAnimationTrainer {
+    animation: trainerEnd .7s linear forwards;
+}
+.pokemon-circle .trainer.human.endAnimationTrainer {
+    animation: trainerEndHuman .7s linear forwards;
+}
+.pokemonContainer {
+    overflow: hidden;
+}
 .pokemon {
     display: inline-block;
+    opacity:0;
     right: 22vw;
     top: 14vh;
     z-index: 2;
     position: absolute;
+}
+.visible {
+    opacity: 1;
+}
+.invisible {
+    opacity: 0;
+}
+.fainted {
+    animation: pokemonFainted .5s linear forwards;
+}
+.pokemon.human.fainted {
+    animation: pokemonFaintedHuman .5s linear forwards;    
+}
+.pokemon.startAnimation {
+    animation: pokemonStart .3s linear .3s forwards;
+}
+.pokemon.human.startAnimation {
+    animation: pokemonStart .3s linear forwards;
 }
 .pokemon.human {
     display: inline-block;
@@ -134,5 +182,104 @@
     }
     90% {
         opacity: 1;
+    }
+}
+
+@keyframes stageStart {
+    from {
+        left: -35vw;
+    }
+    to {
+        left: 26vw;
+    }
+}
+
+@keyframes stageStartHuman {
+    from {
+        left: 110vw;
+    }
+    to {
+        left: 54vw;
+    }
+}
+
+@keyframes trainerStart {
+    from {
+        right: -35vw;
+    }
+    to {
+        right: 25vw;
+    }
+}
+
+@keyframes trainerEnd {
+    from {
+        right: 25vw;
+    }
+    to {
+        right: -35vw;
+    }
+}
+
+
+@keyframes trainerStartHuman  {
+    from {
+        left: -35vw;
+    }
+    to {
+        left: 25vw;
+    }
+}
+
+@keyframes trainerEndHuman  {
+    from {
+        left: 25vw;
+    }
+    to {
+        left: -35vw;
+    }
+}
+
+@keyframes pokemonStart {
+    from {
+        opacity: 0;
+        transform: scale(.2);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }    
+}
+
+@keyframes pokemonFainted {
+    from {
+        padding-top: 0;
+        transform: scaleY(1);
+    }
+    to {
+        padding-top: 34vh;
+        transform: scaleY(0);
+    }
+}
+@keyframes pokemonFainted {
+    from {
+        padding-top: 0;
+        transform: scaleY(1);
+    }
+    to {
+        padding-top: 34vh;
+        transform: scaleY(0);
+    }
+}
+
+@keyframes pokemonFaintedHuman {
+    from {
+        bottom: 28vh;
+        transform: scaleY(1);
+    }
+    
+    to {
+        bottom: 0;
+        transform: scaleY(0);
     }
 }
