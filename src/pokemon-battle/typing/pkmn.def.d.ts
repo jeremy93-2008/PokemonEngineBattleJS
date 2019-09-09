@@ -35,6 +35,26 @@ interface PokemonObject {
     Evolutions: string
 }
 
+interface pkmnStats {
+    hp: number;
+    att: number,
+    matt: number,
+    def: number,
+    mdef: number,
+    speed: number
+}
+
+interface PkmnStatusChange {
+    effect?: PkmnEffect;
+    turnEffect?: number | number[];
+    allyStat?: pkmnStats | "reset";
+    enemyStat?: pkmnStats | "reset";
+    whenSleeping?: boolean;
+    timeOfAttack?: boolean;
+}
+
+type PkmnEffect = "poisoned" | "paralysis" | "burned" | "frozen" | "sleep" | "confused" | "flinch" | "normal";
+
 interface PkmnMoves {
     [x: string]: string[];
 }

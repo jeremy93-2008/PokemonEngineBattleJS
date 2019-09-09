@@ -1,14 +1,14 @@
 import movesJSON from "../info/moves.json";
 import sampleSize from "lodash.samplesize";
 import Attacks from "./attack";
-import { PokemonObject, Moves, PkmnMoves } from "../pokemon-battle/typing/pkmn.def.js";
+import { PokemonObject, Moves, PkmnMoves, PkmnStatusChange } from "../pokemon-battle/typing/pkmn.def.js";
 
 export class pkmnAttacks {
 
     static getRamdomAttacksPokemon(pkmn: PokemonObject, level?: number, aggressive?: boolean) {
         const moves = this.getRandomAttacks(pkmn, level, aggressive);
         return moves.map(m => {
-            return new Attacks(m.name, Number(m.power), m.type, Number(m.accuracy), m.kind, "");
+            return new Attacks(m.name, Number(m.power), m.type, Number(m.accuracy), m.kind, "", m.status, Number(m.accuracyStatus));
         })
     }
 
@@ -28,7 +28,9 @@ export class pkmnAttacks {
                 accuracy: arrayMoveExt[7],
                 priority: arrayMoveExt[11],
                 type: arrayMoveExt[5],
-                kind: arrayMoveExt[6]
+                kind: arrayMoveExt[6],
+                status: arrayMoveExt[3] as unknown as PkmnStatusChange,
+                accuracyStatus: arrayMoveExt[9]
             }
         }).filter((m) => (aggressive) ? m.kind != "Status" : m);
     }

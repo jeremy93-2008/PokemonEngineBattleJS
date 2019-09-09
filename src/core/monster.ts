@@ -1,22 +1,13 @@
 import Attacks from "./attack";
 import pokemonList from "../info/pokemon.json";
-import { PokemonObject } from "../pokemon-battle/typing/pkmn.def";
-
-interface stats {
-  hp: number;
-  att: number,
-  matt: number,
-  def: number,
-  mdef: number,
-  speed: number
-}
+import { PokemonObject, pkmnStats, PkmnEffect } from "../pokemon-battle/typing/pkmn.def";
 
 export default class Monster {
   public maxHP: number;
   /**
  * Create a New Pokemon ready to fight
  */
-  constructor(public name: string, public stats: stats, public attacks: Attacks[], public typing: (string | undefined)[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number) {
+  constructor(public name: string, public stats: pkmnStats, public attacks: Attacks[], public typing: (string | undefined)[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number, public currentStatus: PkmnEffect) {
     this.stats = stats;
     this.attacks = attacks;
     this.typing = typing;
@@ -27,10 +18,11 @@ export default class Monster {
     this.maxHP = stats.hp;
     this.inmunities = inmunities || [];
     this.level = level;
+    this.currentStatus = currentStatus;
   }
 
   getNewInstanceOfMonster(human: boolean) {
-    let newMonster = new Monster(this.name, Object.assign({}, this.stats), Object.assign([], this.attacks), this.typing, this.weakness, this.strength, human, this.inmunities, this.level);
+    let newMonster = new Monster(this.name, Object.assign({}, this.stats), Object.assign([], this.attacks), this.typing, this.weakness, this.strength, human, this.inmunities, this.level, this.currentStatus);
     return newMonster;
   }
 

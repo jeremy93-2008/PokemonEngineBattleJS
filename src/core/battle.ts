@@ -72,10 +72,34 @@ export class Battle {
       damage = 0;
     };
 
+    damage = this.changeStatus(attacker, defender, attack, damage);
+
+    if(dama)
     defender.stats.hp -= damage;
     if (defender.stats.hp < 0) { defender.stats.hp = 0; }
 
     return {damage, modifier, attack};
+  }
+
+  changeStatus(attacker: Monster, defender: Monster, attack: Attacks, damage: number) {
+    const status = attack.status.effect || attacker.currentStatus;
+    if(!status) return;
+    switch(status) 
+    {
+      case "poisoned":
+      case "burned":
+        return damage + attacker.maxHP / 16;
+      case "flinch": 
+        const flinch = Math.random();
+        return flinch > 0.5 ? 0 : damage;
+      case "confused":
+        const conf = Math.random();
+        if(conf < 0.33) {
+          attacker.stats.hp -= attack.damage;
+          return 0;
+        }
+        return damage;        
+    }
   }
   
   clearEnemyAttack() {
