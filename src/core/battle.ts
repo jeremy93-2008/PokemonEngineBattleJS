@@ -74,7 +74,6 @@ export class Battle {
 
     damage = this.changeStatus(attacker, defender, attack, damage);
 
-    if(dama)
     defender.stats.hp -= damage;
     if (defender.stats.hp < 0) { defender.stats.hp = 0; }
 
@@ -83,7 +82,7 @@ export class Battle {
 
   changeStatus(attacker: Monster, defender: Monster, attack: Attacks, damage: number) {
     const status = attack.status.effect || attacker.currentStatus;
-    if(!status) return;
+    if(!status) return damage;
     switch(status) 
     {
       case "poisoned":
@@ -98,7 +97,9 @@ export class Battle {
           attacker.stats.hp -= attack.damage;
           return 0;
         }
-        return damage;        
+        return damage;  
+      default:
+        return damage;      
     }
   }
   
