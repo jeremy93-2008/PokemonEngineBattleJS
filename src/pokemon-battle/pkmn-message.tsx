@@ -41,6 +41,7 @@ function MessageStart(action: PkmnActionMessage, state: PkmnStateMessage): PkmnM
 function AttacksForUser(action: PkmnActionMessage, state: PkmnStateMessage): PkmnMessage {
     const { ally, enemy, battle, setMessage, setAnimation, setEnemy, setAlly } = state;
  
+    const pokemon = ally.team[battle.allyPkmnIndex];
     const pokemonAllySelected = battle.allyPkmnIndex;
     const pokemonEnemySelected = battle.enemyPkmnIndex;
 
@@ -52,6 +53,18 @@ function AttacksForUser(action: PkmnActionMessage, state: PkmnStateMessage): Pkm
             <div key={i} onClick={() => {
                 (battle as Battle).selectPokemonToFight(pokemonAllySelected, pokemonEnemySelected);
                 const { damage, modifier } = battle.humanRound(att);
+
+                if((pokemon.currentStatus.effect == "paralysis" ||
+                pokemon.currentStatus.effect == "sleep"  || 
+                pokemon.currentStatus.effect == "frozen") && damage == 0) {
+                    setMessage(reducerMessage("MessageEffectiveness", {
+                                    ally, enemy, attack: att, battle,
+                                    setAnimation, pokemonRound: { damage, modifier }, setMessage, human: true, setEnemy, setAlly,
+                                    beginBattle: false
+                                }));              
+                    return;    
+                }
+
                 setMessage(reducerMessage("MessageAttack", {
                     ally, enemy, attack: att, battle,
                     setAnimation, pokemonRound: { damage, modifier }, setMessage, human: true, setEnemy, setAlly,
@@ -84,19 +97,22 @@ function MessageAttackEffectiveness(action: PkmnActionMessage, state: PkmnStateM
     const pkmn = (state.human) ? enemy.team[battle.enemyPkmnIndex] : ally.team[battle.allyPkmnIndex];
     const enemigo = (human) ? "enemigo" : "";
 
-    if ((attack as Attacks).attType == "Status") {
-        effectiveness = "Los ataques de status todavia no estan implementados"
-    } else if ((pokemonRound as PkmnRoundMessage).damage == 0) {
+    if ((pokemonRound as PkmnRoundMessage).damage == 0) {
         effectiveness = `${pkmn.name} ${enemigo} ha esquivado el ataque`;
     } else if ((pokemonRound as PkmnRoundMessage).modifier == 0) {
         effectiveness = `${pkmn.name} ${enemigo} es inmune al ataque`;
     } else if ((pokemonRound as PkmnRoundMessage).modifier == 2) {
         effectiveness = "Es super efectivo";
     }
+    const statusChange = '';
+
+    if(pkmn.currentStatus.effect != "normal") {
+      statusChange = `${pkmn.name} está ${pkmn.currentStatus.effect}!`;
+    }
 
     dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
 
-    return (effectiveness) ? Message(`¡${effectiveness}!`, () => {
+    return (effectiveness) ? Message(`¡${effectiveness}! ${statusChange}`, () => {
         setMessage(reducerMessage("MessageDamage", { ally, battle, enemy, setMessage, setAnimation, pokemonRound, human, setEnemy, setAlly }));
     }, action, state) : reducerMessage("MessageDamage", { ally, battle, enemy, setMessage, setAnimation, pokemonRound, human, setEnemy, setAlly });
 }

@@ -82,7 +82,7 @@ function addPokemon(pkmn: PokemonObject, pokemonChosen: Monster[] | null[], inde
         matt: getStats(Number(base[3]), level),
         mdef: getStats(Number(base[4]), level),
         speed: getStats(Number(base[5]), level)
-    }, pkmnAttacks.getRamdomAttacksPokemon(pkmn, level), [pkmn.Type1, pkmn.Type2], Types.getWeaknessForPkmn(pkmn), Types.getStrenghForPkmn(pkmn), false, Types.getInmunitiesForPkmn(pkmn), level, "normal");
+    }, pkmnAttacks.getRamdomAttacksPokemon(pkmn, level), [pkmn.Type1, pkmn.Type2], Types.getWeaknessForPkmn(pkmn), Types.getStrenghForPkmn(pkmn), false, Types.getInmunitiesForPkmn(pkmn), level, {effect: "human"});
 
     // We verify that we not selecting the same pokemon again
     if (!!(pokemonChosen as Monster[]).find(pkmn => (pkmn) ? pkmn.name == monster.name : true)) return;
@@ -108,7 +108,7 @@ function PokemonTeamForEnemy(pkmns: PokemonObject[], level: number): Monster[] {
             matt: getStats(Number(base[3]), level),
             mdef: getStats(Number(base[4]), level),
             speed: getStats(Number(base[5]), level)
-        }, pkmnAttacks.getRamdomAttacksPokemon(pkmn, level), [pkmn.Type1, pkmn.Type2], Types.getWeaknessForPkmn(pkmn), Types.getStrenghForPkmn(pkmn), false, Types.getInmunitiesForPkmn(pkmn), level, "normal");
+        }, pkmnAttacks.getRamdomAttacksPokemon(pkmn, level), [pkmn.Type1, pkmn.Type2], Types.getWeaknessForPkmn(pkmn), Types.getStrenghForPkmn(pkmn), false, Types.getInmunitiesForPkmn(pkmn), level, {effect: "human"});
     });
 }
 

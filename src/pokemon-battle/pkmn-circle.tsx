@@ -19,7 +19,7 @@ export function PokemonCircle(props: PkmnCircleProps) {
                 <div className="pokeball-list">
                     {props.team.map((pkmn) => <img className={`pokeball ${pkmn.stats.hp <= 0 ? "disable" : ""}`} src={pokeball}></img>)}
                 </div>
-                <div className="name">{pokemon.name}</div><div className="level">Lv {pokemon.level}</div> 
+                <div className="name">{pokemon.name} {pokemon.currentStatus.effect}</div><div className="level">Lv {pokemon.level}</div> 
                 <div className={`hp-name ${props.humain ? "humain" : ""}`}>{props.humain ? "HP" : ""}
                     <div className={`hp-container ${props.humain ? "human" : ""}`}>
                         <div style={{width: percentageHp +"%", 

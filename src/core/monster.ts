@@ -1,13 +1,13 @@
 import Attacks from "./attack";
 import pokemonList from "../info/pokemon.json";
-import { PokemonObject, pkmnStats, PkmnEffect } from "../pokemon-battle/typing/pkmn.def";
+import { PokemonObject, pkmnStats, PkmnStatusChange } from "../pokemon-battle/typing/pkmn.def";
 
 export default class Monster {
   public maxHP: number;
   /**
  * Create a New Pokemon ready to fight
  */
-  constructor(public name: string, public stats: pkmnStats, public attacks: Attacks[], public typing: (string | undefined)[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number, public currentStatus: PkmnEffect) {
+  constructor(public name: string, public stats: pkmnStats, public attacks: Attacks[], public typing: (string | undefined)[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number, public currentStatus: PkmnStatusChange) {
     this.stats = stats;
     this.attacks = attacks;
     this.typing = typing;
