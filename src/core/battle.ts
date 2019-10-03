@@ -42,7 +42,7 @@ export class Battle {
 
   makeAttack(attacker: Monster, defender: Monster, attack: Attacks) {
     // We see if the attacker can attack with its current status, if not the case we return a simple object with 0 damage
-    if(this.unableStatus(attacker)) return {0, 0, attack};
+    if(this.unableStatus(attacker)) return {damage: 0, modifier: 0, attack};
 
     let attPower;
     let defPower;
