@@ -50,8 +50,8 @@ function getPkmnClassName(props: PkmnCircleProps): string | undefined {
     if(props.animation && props.animation.messageType == "MessageAttack") className += " animate";
     if(props.team[props.pokemonSelected].stats.hp <= 0 && props.action == "MessageFainted") className += " fainted";
     if(props.team[props.pokemonSelected].stats.hp <= 0 && props.action == "PokemonList") className += " invisible"
-    if(props.beginBattle || (props.action == "MessagePokemonUser" && props.humain)
-        || (props.action == "MessagePokemonChanged" && !props.humain)) className += " startAnimation";
+    if(props.beginBattle || (props.action == "MessagePokemonChanged" && props.humain)
+        || (props.action == "MessagePokemonChanging" && !props.humain)) className += " startAnimation";
     else if(!props.beginBattle && props.action && props.action != "MessageStart") className += " visible";
     return className;
 }

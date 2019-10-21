@@ -52,6 +52,7 @@ interface PkmnStateMessage {
     pkmnStrategicChange?: boolean;
     pkmnRoundChange?: boolean;
     beginBattle?: boolean;
+    hurtItself?: boolean;
 }
 
 interface PkmnStateAnimation extends AnimationProps {
@@ -64,6 +65,7 @@ type dispatchAnimaton = React.Dispatch<React.SetStateAction<PkmnStateAnimation>>
 type PkmnRoundMessage = { damage: number, modifier: number, attack?: Attacks }
 
 type PkmnActionMessage = "Attack" | "PokemonList" | "MessageAttack" | "MessageEffectiveness" | "MessageStart" |
-                        "MessageDamage" | "MessageFainted" | "MessagePokemonChanged" | "MessagePokemonUser" | undefined | null;
+                        "MessageDamage" | "MessageFainted" | "MessagePokemonChanging" | "MessagePokemonChanged" | 
+                        "MessageUnableStatus" | undefined | null;
 
 type PkmnBattleTerrain = "grass" | "city" | "ocean" | "mountain";

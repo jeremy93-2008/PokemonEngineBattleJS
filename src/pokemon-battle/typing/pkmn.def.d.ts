@@ -53,6 +53,10 @@ interface PkmnStatusChange {
     timeOfAttack?: boolean;
 }
 
+interface PkmnCurrentStatus extends PkmnStatusChange {
+    turnEffect?: number;
+}
+
 type PkmnEffect = "poisoned" | "paralysis" | "burned" | "frozen" | "sleep" | "confused" | "flinch" | "normal";
 
 interface PkmnMoves {

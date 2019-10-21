@@ -4,7 +4,7 @@ import { Battle } from "../core/battle";
 import Attacks from "../core/attack";
 import { dispatchAnimation } from "./pkmn-animation";
 import { PokemonList } from "./pkmn-list";
-import { PokemonObject } from "./typing/pkmn.def";
+import { PokemonObject, PkmnEffect } from "./typing/pkmn.def";
 import { getComputerPokemon } from "../core/computerAI";
 import Monster from "../core/monster";
 
@@ -17,18 +17,18 @@ export function reducerMessage(action: PkmnActionMessage, state: PkmnStateMessag
         case "MessageEffectiveness": return MessageAttackEffectiveness(action, state);
         case "MessageDamage": return MessageAttackDamage(action, state);
         case "MessageFainted": return MessageFainted(action, state);
+        case "MessagePokemonChanging": return MessagePokemonChanging(action, state);
         case "MessagePokemonChanged": return MessagePokemonChanged(action, state);
-        case "MessagePokemonUser": return MessagePokemonUserChange(action, state);
+        case "MessageUnableStatus": return MessageUnableStatus(action, state);
         default: return AttacksForUser(action, state);
     }
 }
 
 function MessageStart(action: PkmnActionMessage, state: PkmnStateMessage): PkmnMessage {
-    const { ally, enemy, battle, setMessage,
-        setAnimation, setEnemy, setAlly } = state;
+    const { setMessage } = state;
     const trainer = state.enemy.trainer ? state.enemy.trainer.name : null;
     const onClickMessage = () => {
-        setMessage(reducerMessage("Attack", {...state, beginBattle: true}));
+        setMessage(reducerMessage("Attack", {...state, beginBattle: true, human: true}));
     };
 
     if(trainer) {
@@ -40,8 +40,8 @@ function MessageStart(action: PkmnActionMessage, state: PkmnStateMessage): PkmnM
 
 function AttacksForUser(action: PkmnActionMessage, state: PkmnStateMessage): PkmnMessage {
     const { ally, enemy, battle, setMessage, setAnimation, setEnemy, setAlly } = state;
- 
-    const pokemon = ally.team[battle.allyPkmnIndex];
+
+    const pkmn = (state.human) ? ally.team[battle.enemyPkmnIndex] : enemy.team[battle.allyPkmnIndex];
     const pokemonAllySelected = battle.allyPkmnIndex;
     const pokemonEnemySelected = battle.enemyPkmnIndex;
 
@@ -52,24 +52,19 @@ function AttacksForUser(action: PkmnActionMessage, state: PkmnStateMessage): Pkm
         {ally.team[battle.allyPkmnIndex].attacks.map((att, i) =>
             <div key={i} onClick={() => {
                 (battle as Battle).selectPokemonToFight(pokemonAllySelected, pokemonEnemySelected);
-                const { damage, modifier } = battle.humanRound(att);
-
-                if((pokemon.currentStatus.effect == "paralysis" ||
-                pokemon.currentStatus.effect == "sleep"  || 
-                pokemon.currentStatus.effect == "frozen") && damage == 0) {
-                    setMessage(reducerMessage("MessageEffectiveness", {
-                                    ally, enemy, attack: att, battle,
-                                    setAnimation, pokemonRound: { damage, modifier }, setMessage, human: true, setEnemy, setAlly,
-                                    beginBattle: false
-                                }));              
-                    return;    
-                }
-
-                setMessage(reducerMessage("MessageAttack", {
+                const { damage, modifier, attack } = battle.humanRound(att);
+                const state = {
                     ally, enemy, attack: att, battle,
                     setAnimation, pokemonRound: { damage, modifier }, setMessage, human: true, setEnemy, setAlly,
                     beginBattle: false
-                }));
+                }
+
+                if(PkmnHaveAlteredPreAttackStatus(pkmn)) {
+                    setMessage(reducerMessage("MessageUnableStatus", {...state, pokemonRound: {damage, modifier, attack}}))
+                    return;
+                }
+
+                setMessage(reducerMessage("MessageAttack", state));
             }} className="att">{att.name}</div>)}</>, () => {}, action, state);
 }
 
@@ -79,40 +74,36 @@ function MessageAttackUsed(action: PkmnActionMessage, state: PkmnStateMessage) {
 
     const pkmnMessage = (state.human) ? ally : enemy;
     const pkmnIndex = (state.human) ? battle.allyPkmnIndex : battle.enemyPkmnIndex;
+    const pkmn = pkmnMessage.team[pkmnIndex];
     
     if((pokemonRound as PkmnRoundMessage).damage > 0)
         dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
 
-    return Message(`¡${pkmnMessage.team[pkmnIndex].name} ha usado ${(attack as Attacks).name}!`, () => {
+    return Message(`¡${pkmn.name} ha usado ${(attack as Attacks).name}!`, () => {
         setMessage(reducerMessage("MessageEffectiveness", { attack, battle, ally, enemy, pokemonRound, setMessage, setAnimation, human, setEnemy, setAlly }));
     }, action, state);
 }
 
 function MessageAttackEffectiveness(action: PkmnActionMessage, state: PkmnStateMessage) {
-    const { ally, enemy, battle, attack,
-        setMessage, setAnimation, pokemonRound, human, setEnemy, setAlly } = state;
+    const { ally, enemy, battle, setMessage, setAnimation,
+        pokemonRound, human, setEnemy, setAlly } = state;
 
     let effectiveness = null;
 
     const pkmn = (state.human) ? enemy.team[battle.enemyPkmnIndex] : ally.team[battle.allyPkmnIndex];
     const enemigo = (human) ? "enemigo" : "";
 
-    if ((pokemonRound as PkmnRoundMessage).damage == 0) {
+    if ((pokemonRound as PkmnRoundMessage).damage == 0 && pkmn.currentStatus.effect == "normal") {
         effectiveness = `${pkmn.name} ${enemigo} ha esquivado el ataque`;
     } else if ((pokemonRound as PkmnRoundMessage).modifier == 0) {
         effectiveness = `${pkmn.name} ${enemigo} es inmune al ataque`;
     } else if ((pokemonRound as PkmnRoundMessage).modifier == 2) {
         effectiveness = "Es super efectivo";
     }
-    const statusChange = '';
-
-    if(pkmn.currentStatus.effect != "normal") {
-      statusChange = `${pkmn.name} está ${pkmn.currentStatus.effect}!`;
-    }
-
+    
     dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
 
-    return (effectiveness) ? Message(`¡${effectiveness}! ${statusChange}`, () => {
+    return (effectiveness) ? Message(`¡${effectiveness}!`, () => {
         setMessage(reducerMessage("MessageDamage", { ally, battle, enemy, setMessage, setAnimation, pokemonRound, human, setEnemy, setAlly }));
     }, action, state) : reducerMessage("MessageDamage", { ally, battle, enemy, setMessage, setAnimation, pokemonRound, human, setEnemy, setAlly });
 }
@@ -138,12 +129,21 @@ function MessageAttackDamage(action: PkmnActionMessage, state: PkmnStateMessage)
             setMessage(reducerMessage("MessageFainted", {ally, battle, enemy, setMessage, setAnimation, setEnemy, setAlly, human}));
             return;
         }
+
         if (!state.human) {
-            setMessage(reducerMessage("Attack", { ally, battle, enemy, setMessage, setAnimation , setEnemy, setAlly}));
+            setMessage(reducerMessage("Attack", { ally, battle, enemy, setMessage, setAnimation , setEnemy, setAlly, human: true}));
             return;
         }
+
+        const { attack, damage, modifier } = (battle as Battle).computerRound(state.hurtItself as boolean);
+
+        if(PkmnHaveAlteredPreAttackStatus(pkmn)) {
+            setMessage(reducerMessage("MessageUnableStatus", {...state, pokemonRound: {damage, modifier, attack}}));
+            return;
+        }
+
         state.human = !state.human;
-        const { attack, damage, modifier } = (battle as Battle).computerRound();
+        
         setMessage(reducerMessage("MessageAttack", {
             ally, enemy, battle, attack,
             setMessage, setAnimation, pokemonRound: { damage, modifier }, human: state.human, setAlly, setEnemy
@@ -179,13 +179,13 @@ function MessageFainted(action: PkmnActionMessage, state: PkmnStateMessage) {
             const nextMonster = getComputerPokemon(enemy.team, ally.team[battle.allyPkmnIndex]);
             battle.clearEnemyAttack();
             battle.selectPokemonToFight(battle.allyPkmnIndex, (nextMonster.index as number));
-            setMessage(reducerMessage("MessagePokemonChanged", {ally, enemy, battle,
+            setMessage(reducerMessage("MessagePokemonChanging", {ally, enemy, battle,
                 setMessage, setAnimation, setAlly, setEnemy, human}));
             
         }, action, state);
 }
 
-function MessagePokemonChanged(action: PkmnActionMessage, state: PkmnStateMessage) {
+function MessagePokemonChanging(action: PkmnActionMessage, state: PkmnStateMessage) {
     const { ally, enemy, battle, setMessage,
         setAnimation, pokemonRound, human, setEnemy, setAlly } = state;   
         
@@ -210,7 +210,7 @@ function MessagePokemonChanged(action: PkmnActionMessage, state: PkmnStateMessag
     </div>, () => {}, action, state); 
 }
 
-function MessagePokemonUserChange(action: PkmnActionMessage, state: PkmnStateMessage) {
+function MessagePokemonChanged(action: PkmnActionMessage, state: PkmnStateMessage) {
     const { ally, enemy, battle, setMessage,
         setAnimation, setEnemy, setAlly } = state;   
         
@@ -220,7 +220,7 @@ function MessagePokemonUserChange(action: PkmnActionMessage, state: PkmnStateMes
     
     return Message(`${ally.trainer.name} envía a ${pkmn.name}`, () => {
         if(!state.pkmnRoundChange && state.human || state.pkmnStrategicChange) {
-            const { attack, damage, modifier } = (battle as Battle).computerRound();
+            const { attack, damage, modifier } = (battle as Battle).computerRound(false);
             setMessage(reducerMessage("MessageAttack", {
                 ally, enemy, battle, attack,
                 setMessage, setAnimation, pokemonRound: {damage, modifier}, human: false, setAlly, setEnemy, pkmnStrategicChange: false
@@ -248,12 +248,32 @@ function PokemonListForUser(action: PkmnActionMessage, state: PkmnStateMessage) 
                     const nextMonster = pkmn as Monster;
                     const index = ally.team.map((pkmn, i) => (pkmn.name == nextMonster.name) ? i : -1).find(index => index > -1);
                     battle.selectPokemonToFight((index as number), battle.enemyPkmnIndex);
-                    setMessage(reducerMessage("MessagePokemonUser", {
+                    setMessage(reducerMessage("MessagePokemonChanged", {
                             ally, enemy, battle,
                             setMessage, setAnimation, pkmnStrategicChange, human: state.human, setAlly, setEnemy, pkmnRoundChange
                     }));
         }}></PokemonList></>}
         </div>, () => {}, action, state);
+}
+
+function MessageUnableStatus(action: PkmnActionMessage, state: PkmnStateMessage) {
+    const { ally, enemy, battle, setMessage,
+        setAnimation, setEnemy, setAlly, pkmnStrategicChange, pkmnRoundChange, pokemonRound } = state;
+    
+    const pkmn = (state.human) ? enemy.team[battle.enemyPkmnIndex] : ally.team[battle.allyPkmnIndex];
+
+    let damageByConfusion = 0;
+    if(pkmn.currentStatus.effect == "confused") {
+        const { damage } = battle.applyStatus(pkmn);
+        damageByConfusion = damage;
+        dispatchAnimation(action, !(state.human as boolean), (setAnimation as dispatchAnimaton));
+    }
+
+    return Message(`${pkmn.name} está ${effectNameLang(pkmn.currentStatus.effect)}.`, () => {
+        state.human = !state.human;
+        state.hurtItself = damageByConfusion > 0;
+        setMessage(reducerMessage("MessageDamage", state))
+    }, action, state);
 }
 
 /**
@@ -267,6 +287,27 @@ function Message(child: string | JSX.Element, onClick: (event: React.MouseEvent<
         action,
         state
     }
+}
+
+function PkmnHaveAlteredPreAttackStatus(pkmn: Monster) {
+    return pkmn.currentStatus.effect == "paralysis" 
+                || pkmn.currentStatus.effect == "frozen" 
+                || pkmn.currentStatus.effect == "sleep"
+                || pkmn.currentStatus.effect == "flinch"
+                || pkmn.currentStatus.effect == "confused"
+}
+
+function effectNameLang(effect: PkmnEffect | undefined) {
+    switch(effect) {
+        case "burned": return "quemado";
+        case "confused": return "confuso";
+        case "flinch": return "retrociendo";
+        case "frozen": return "congelado";
+        case "paralysis": return "paralizado";
+        case "poisoned": return "envenenado";
+        case "sleep": return "durmiendo";
+    }
+    return effect;
 }
 
 function calculatePercentage(pokemonRound: PkmnRoundMessage | undefined, pkmn: Monster) {

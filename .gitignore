@@ -3,3 +3,4 @@ lib
 .cache
 __*
 *.rb
+/.idea

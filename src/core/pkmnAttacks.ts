@@ -4,7 +4,6 @@ import Attacks from "./attack";
 import { PokemonObject, Moves, PkmnMoves, PkmnStatusChange } from "../pokemon-battle/typing/pkmn.def.js";
 
 export class pkmnAttacks {
-
     static getRamdomAttacksPokemon(pkmn: PokemonObject, level?: number, aggressive?: boolean) {
         const moves = this.getRandomAttacks(pkmn, level, aggressive);
         return moves.map(m => {
@@ -15,7 +14,8 @@ export class pkmnAttacks {
     private static getRandomAttacks(pkmn: PokemonObject, level?: number, aggressive?: boolean) {
         const moves = this.getAvailablePkmnMoves(pkmn, level) as Moves;
         const movesExtended = this.getAttackData(moves, aggressive);
-        return sampleSize(movesExtended, 4)
+        const moveExtendedUnique = movesExtended.filter((m) => movesExtended.filter((mm) => mm.name == m.name).length == 1);
+        return sampleSize(moveExtendedUnique, 4)
     }
 
     private static getAttackData(moves: Moves, aggressive?: boolean) {
