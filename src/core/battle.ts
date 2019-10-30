@@ -2,49 +2,86 @@ import Monster from "./monster";
 import Attacks from "./attack";
 import randomGenerator from "lodash.random";
 import { pkmnAttacks } from "./pkmnAttacks";
-import { getComputerAttack } from "./computerAI";
 import clone from "lodash.clonedeep";
 import random from "lodash.random";
-import { PkmnCurrentStatus } from "../pokemon-battle/typing/pkmn.def";
+import { PkmnCurrentStatus, PkmnBattleReturn } from "../pokemon-battle/typing/pkmn.def";
+import { PkmnTrainers } from "../pokemon-battle/typing/pkmn-battle";
 
 export class Battle {
   private pkmnTeamAlly: Monster[];
   private pkmnTeamEnemy: Monster[];
 
+  public trainers: PkmnTrainers;
+
   public allyPkmnIndex: number;
   public enemyPkmnIndex: number;
 
-  private attacksEnemy: Attacks[];
+  public allyCurrentPokemon: Monster;
+  public enemyCurrentPokemon: Monster;
 
-  constructor(teamAlly: Monster[], teamEnemy: Monster[]) {
+  public currentPokemonTurn: Monster;
+  public currentEnemyPokemonTurn: Monster;
+  public currentAttackDamageTurn: number;
+
+  public attacksEnemy: Attacks[];
+
+  public attackLaunched: Attacks;
+
+  constructor(teamAlly: Monster[], teamEnemy: Monster[], trainers: PkmnTrainers) {
     this.pkmnTeamAlly = teamAlly;
     this.pkmnTeamEnemy = teamEnemy;
     this.allyPkmnIndex = 0;
     this.enemyPkmnIndex = 0;
     this.attacksEnemy = [];
+    this.allyCurrentPokemon = teamAlly[0];
+    this.enemyCurrentPokemon = teamEnemy[0];
+    this.currentPokemonTurn = this.allyCurrentPokemon;
+    this.currentEnemyPokemonTurn = this.enemyCurrentPokemon;
+    this.currentAttackDamageTurn = 0;
+    this.attackLaunched = this.allyCurrentPokemon.attacks[0];
+    this.trainers = trainers;
+    this.selectPokemonToFight(0, 0);
   }
 
   selectPokemonToFight(allyPkmnIndex: number, enemyPkmnIndex: number) {
     this.allyPkmnIndex = allyPkmnIndex;
     this.enemyPkmnIndex = enemyPkmnIndex;
+
+    this.allyCurrentPokemon = this.pkmnTeamAlly[allyPkmnIndex];
+    this.enemyCurrentPokemon = this.pkmnTeamEnemy[enemyPkmnIndex];
+    
     if(this.attacksEnemy.length < 1) 
       this.selectAttacksForComputer();
   }
 
-  humanRound(attack: Attacks) {
-    return this.makeAttack(this.pkmnTeamAlly[this.allyPkmnIndex], 
-      this.pkmnTeamEnemy[this.enemyPkmnIndex], attack);
+  public doRound(allyAttack: Attacks, enemyAttack: Attacks) {
+    let firstToAttack = this.pkmnTeamAlly[this.allyPkmnIndex];
+    let secondToAttack = this.pkmnTeamEnemy[this.enemyPkmnIndex];
+    let attack = allyAttack;
+
+    if(firstToAttack.stats.speed < secondToAttack.stats.speed) {
+      firstToAttack = this.pkmnTeamEnemy[this.enemyPkmnIndex];
+      secondToAttack = this.pkmnTeamAlly[this.allyPkmnIndex];
+      attack = enemyAttack;
+    }
+
+    firstToAttack.stats.speed = 0;
+
+    if(firstToAttack.stats.speed == 0 && secondToAttack.stats.speed == 0) {
+      firstToAttack.stats.speed = firstToAttack.maxSpeed;
+      secondToAttack.stats.speed = secondToAttack.maxSpeed;
+    }
+
+    this.currentPokemonTurn = firstToAttack;
+    this.currentEnemyPokemonTurn = secondToAttack;
+    this.attackLaunched = attack;
+
+    return this.makeAttack(firstToAttack, secondToAttack, attack)
   }
 
-  computerRound(unableToAttack: boolean) {
-    if(unableToAttack) return { damage: 0, modifier: 0, attack: getComputerAttack(this.attacksEnemy, this.pkmnTeamAlly[this.allyPkmnIndex])}
-    return this.makeAttack(this.pkmnTeamEnemy[this.enemyPkmnIndex],
-      this.pkmnTeamAlly[this.allyPkmnIndex], getComputerAttack(this.attacksEnemy, this.pkmnTeamAlly[this.allyPkmnIndex]));
-  }
-
-  makeAttack(attacker: Monster, defender: Monster, attack: Attacks) {
+  private makeAttack(attacker: Monster, defender: Monster, attack: Attacks): PkmnBattleReturn {
     // We see if the attacker can attack with its current status, if not the case we return a simple object with 0 damage
-    if(this.unableStatus(attacker)) return {damage: 0, modifier: 0, attack};
+    if(this.unableStatus(attacker)) return {damage: 0, modifier: 0, attack, unableToAttack: true};
 
     let attPower;
     let defPower;
@@ -85,7 +122,9 @@ export class Battle {
     // Apply status on Pokemon
     this.AddStatusToPkmn(defender, attack);
 
-    return {damage, modifier, attack};
+    this.currentAttackDamageTurn = damage;
+
+    return {damage, modifier, attack, unableToAttack: false};
   }
 
   applyStatus(currentPokemon: Monster) {

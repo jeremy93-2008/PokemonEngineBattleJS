@@ -1,5 +1,6 @@
 import Monster from "../../core/monster";
 import { PkmnTrainerProps } from "./pkmn-battle";
+import Attacks from "../../core/attack";
 
 /**
  * Pokemon object as Stored in our JSON data
@@ -84,6 +85,13 @@ interface PkmnType {
 interface PokemonMessage { 
     team: Monster[]; 
     trainer: PkmnTrainerProps; 
+}
+
+interface PkmnBattleReturn {
+    damage: number;
+    modifier: number;
+    attack: Attacks;
+    unableToAttack: boolean;
 }
 
 /**

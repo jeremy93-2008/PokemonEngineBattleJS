@@ -15,70 +15,137 @@
 .ocean {
     background-image: url("../../assets/background/Ocean.png")
 }
-.messageContainer {
+.messageWrapper {
     position: absolute;
-    bottom: -3vh;
+    bottom: 0;
     left: 9vw;
-    height: 32vh;
-    padding-top: 3vh;
+    height: 25vh;
     width: 80vw;
     z-index: 3;
     border: solid 4px #333;
     background: #d6d6d6;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     box-shadow: 0 0 10px grey;
     border-bottom: none;
     text-align: center;
 }
-.messageContainer > div:not(.att) {
-    height: 90%;
-}
-.messageContainer .att {
-    display: inline-block;
-    font-size: 4vh;
-    margin: 10px 5px 10px 0;
-    padding: 1.5vw 0;
-    color: #222;
-    border: solid 2px #333;
-    border-radius: 10px;
-    width: calc(50% - 12px);
-    cursor: pointer;
-}
-.pokemon-list-fainted {
-    left: -10vw;;
-}
-.pokemon-each-fainted {
-    width: 125px;
-    height: 120px;
-}
-.pokemon-each-fainted img {
-    width: 5vw;
-}
-.pokemon-each-fainted.disable {
-    filter: grayscale(100%);
-    pointer-events: none;
-}
-.pokemon-list-fainted .hp-container {
-    background: #333;
-    width: 6vw;
-    left: 0.8vw;
-    margin-top: 2px;
-}
-.pokemon-list-fainted .hp-container .hp-value {
-    background: green;
+
+.messageContainer {
+    width: 100%;
     height: 100%;
 }
-.change-pokemon {
-    position: absolute;
-    top: -40px;
-    right: 0vw;
-    border: solid 2px #16325e;
-    border-radius: 10px;
-    background-color: #1f4889;
-    color: #eee;
-    padding: 5px 10px;
-    z-index: 1;
-    font-size: 16px;
+
+.messageContainer div {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding-top: 3vh;
+}
+
+.attacks-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+}
+
+.attack-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 90%;
+    border: solid 1px gray;
+    border-radius: 0 50px 50px 0;
     outline: none;
     cursor: pointer;
+    font-size: 2vw;
 }
+
+.attack-button .name {
+    flex: 1;
+}
+
+.attack-button .type {
+    border: solid 1px rgba(0, 0, 0, 0.11);
+    border-radius: 10px;
+    padding: 5px;
+    background: rgba(0,0,0,0.1);
+    font-size: 1vw;
+    margin-right: 2vw;
+}
+
+.attack-button:nth-child(2n) {
+    border-radius: 50px 0 0 50px;
+}
+
+.attack-button.normal {
+    background: whitesmoke;
+}
+
+.attack-button.fighting {
+    background: rgb(155, 77, 13);
+}
+
+.attack-button.flying {
+    background: rgb(142, 218, 228);
+}
+
+.attack-button.poison {
+    background: rgb(158, 41, 194);
+}
+
+.attack-button.ground, .attack-button.rock {
+    background: rgb(134, 99, 2);
+}
+
+.attack-button.bug {
+    background: rgb(113, 231, 119);
+}
+
+.attack-button.ghost {
+    background: rgb(126, 9, 161);
+    color: white;
+}
+
+.attack-button.steel {
+    background: rgb(153, 153, 153);
+}
+
+.attack-button.fire {
+    background: rgb(197, 58, 34);
+}
+
+.attack-button.water {
+    background: rgb(41, 89, 194);
+    color:white;
+}
+
+.attack-button.grass {
+    background: rgb(59, 146, 24);
+}
+
+.attack-button.electric {
+    background: rgb(255, 253, 107);
+}
+
+.attack-button.psychic {
+    background: rgb(185, 129, 231);
+}
+
+.attack-button.ice {
+    background: rgb(89, 165, 228);
+}
+
+.attack-button.dragon {
+    background: rgb(91, 2, 99);
+    color:white;
+}
+
+.attack-button.dark {
+    background: rgb(47, 48, 48);
+    color: white;
+}
+
+
+
+
+

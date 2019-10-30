@@ -6,7 +6,7 @@ import { PokemonCircle } from "./pkmn-circle";
 import { RouteComponentProps } from "react-router-dom";
 import { PkmnBattleProps, PkmnStateAnimation, PkmnMessage, PkmnStateMessage } from "./typing/pkmn-battle";
 import { Battle } from "../core/battle";
-import { reducerMessage } from "./pkmn-message";
+import { nextMessage } from "./pkmn-message-core";
 
 export function PokemonBattle(props: RouteComponentProps) {
     const { terrain, pkmns, trainers } = props as unknown as PkmnBattleProps;
@@ -24,25 +24,16 @@ export function PokemonBattle(props: RouteComponentProps) {
             sprite: trainers.her.sprite
         }
     });
-
-    const [battle] = useState(new Battle(ally.team, enemy.team));
-
-    const [message, setMessage] = useState<PkmnMessage>({render: <div key={-1}></div>, state: undefined, action: "MessageStart"});
-    const [animation, setAnimation] = useState<PkmnStateAnimation>();
+    
+    const [message, setMessage] = useState(<div></div>);
 
     useEffect(() => {
-        if (message.render.key == -1) setMessage(reducerMessage("MessageStart", {ally, battle, enemy, setMessage, setAnimation}));
-    }, [message]);
+        setMessage(nextMessage(pkmns, trainers, setMessage));
+    }, []);
 
     return (<div className={`background ${terrain}`}>
-        <PokemonCircle action={message.action} animation={(animation && !!!animation.human) ? animation : undefined} 
-            {...enemy} isHumanTurn={message.state ? message.state.human || true : true} pokemonSelected={battle.enemyPkmnIndex} humain={false} 
-            beginBattle={message.state ? message.state.beginBattle || false : false} terrain={terrain}></PokemonCircle>
-        <PokemonCircle action={message.action} animation={(animation && !!animation.human) ? animation : undefined} 
-            {...ally} isHumanTurn={message.state ? message.state.human || true : true} pokemonSelected={battle.allyPkmnIndex} humain={true} 
-            beginBattle={message.state ? message.state.beginBattle || false : false} terrain={terrain}></PokemonCircle>
-        <div className="messageContainer">
-            {message.render}
+        <div className="messageWrapper">
+            {message}
         </div>
     </div>);
 }

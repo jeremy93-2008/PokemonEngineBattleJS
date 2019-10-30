@@ -5,14 +5,17 @@ import Attacks from "../../core/attack";
 
 interface PkmnBattleProps {
     terrain: PkmnBattleTerrain;
-    pkmns: {
-        you: Monster[],
-        her: Monster[]
-    },
-    trainers: {
-        you: PkmnTrainerProps;
-        her: PkmnTrainerProps;
-    }
+    pkmns: PkmnsAllTeams,
+    trainers: PkmnTrainers
+}
+
+interface PkmnTrainers {
+    you: PkmnTrainerProps;
+    her: PkmnTrainerProps;
+}
+interface PkmnsAllTeams {
+    you: Monster[],
+    her: Monster[]
 }
 
 interface PkmnTrainerProps {
@@ -27,16 +30,15 @@ interface PkmnMessage {
 }
 
 interface PkmnCircleProps {
-    terrain: PkmnBattleTerrain,
     team: Monster[],
     trainer: PkmnTrainerProps,
     humain: boolean,
     pokemonSelected: number,
-    animation?: PkmnStateAnimation,
-    beginBattle: boolean,
-    action: PkmnActionMessage,
-    isHumanTurn: boolean
+    animation: PkmnStateAnimation,
+    state: PkmnStateMessage
 }
+
+type setMessagePkmn = React.Dispatch<React.SetStateAction<JSX.Element>>;
 
 interface PkmnStateMessage {
     ally: PokemonMessage,
@@ -52,7 +54,6 @@ interface PkmnStateMessage {
     pkmnStrategicChange?: boolean;
     pkmnRoundChange?: boolean;
     beginBattle?: boolean;
-    hurtItself?: boolean;
 }
 
 interface PkmnStateAnimation extends AnimationProps {
@@ -69,3 +70,9 @@ type PkmnActionMessage = "Attack" | "PokemonList" | "MessageAttack" | "MessageEf
                         "MessageUnableStatus" | undefined | null;
 
 type PkmnBattleTerrain = "grass" | "city" | "ocean" | "mountain";
+
+interface PkmnBattleContainer {
+    pkmns: PkmnsAllTeams,
+    trainers: PkmnTrainers,
+    setMessage: setMessagePkmn
+}

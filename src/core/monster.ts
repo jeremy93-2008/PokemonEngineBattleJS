@@ -4,6 +4,7 @@ import { PokemonObject, pkmnStats, PkmnCurrentStatus } from "../pokemon-battle/t
 
 export default class Monster {
   public maxHP: number;
+  public maxSpeed: number;
   /**
  * Create a New Pokemon ready to fight
  */
@@ -16,6 +17,7 @@ export default class Monster {
     this.strength = strength || [];
     this.human = human;
     this.maxHP = stats.hp;
+    this.maxSpeed = stats.speed;
     this.inmunities = inmunities || [];
     this.level = level;
     this.currentStatus = currentStatus;
