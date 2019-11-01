@@ -15,8 +15,11 @@ function addMessageRound(unableAttack: boolean) {
     }
     messagesList.push(AttackLaunchedMessage());
     messagesList.push(DamageAttackMessage());
-    if(isFaintedMessage(battle.currentEnemyPokemonTurn))
+    if(isFaintedMessage(battle.currentEnemyPokemonTurn)) {
         messagesList.push(FaintedMessage());
+        return false;
+    }
+    return true;
 }
 
 function roundAttack(selectedAtt: Attacks) {
@@ -24,9 +27,12 @@ function roundAttack(selectedAtt: Attacks) {
     let unableToAttack = false;
     const enemyAttack = getComputerAttack(battle.attacksEnemy, battle.allyCurrentPokemon);
     unableToAttack = battle.doRound(selectedAtt, enemyAttack).unableToAttack;
-    addMessageRound(unableToAttack);
-    unableToAttack = battle.doRound(selectedAtt, enemyAttack).unableToAttack;
-    addMessageRound(unableToAttack)
+    const canContinue = addMessageRound(unableToAttack);
+    if(canContinue) {
+        unableToAttack = battle.doRound(selectedAtt, enemyAttack).unableToAttack;
+        addMessageRound(unableToAttack);
+    }
+    messagesList.push(AttackForUser())
 }
 
 function isFaintedMessage(pkmn: Monster) {

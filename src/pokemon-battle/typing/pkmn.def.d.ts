@@ -92,6 +92,7 @@ interface PkmnBattleReturn {
     modifier: number;
     attack: Attacks;
     unableToAttack: boolean;
+    attackEvaded: boolean;
 }
 
 /**

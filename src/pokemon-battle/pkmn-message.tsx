@@ -13,7 +13,7 @@ export function AttackForUser() {
     const pkmn = battle.allyCurrentPokemon
     return <div className="attacks-container">
         {pkmn.attacks.map((att, index) => 
-            <button onClick={onClickAttackForUser.bind({}, att)} className={`attack-button ${att.typing.toLowerCase()}`}>
+            <button onClick={() => {onClickAttackForUser(att)}} className={`attack-button ${att.typing.toLowerCase()}`}>
                 <span className="name">{att.name}</span>
                 <span className="type">{att.typing.toLowerCase()}</span>
             </button>)}
@@ -31,10 +31,11 @@ export function UnableAttackMessage() {
 }
 
 export function DamageAttackMessage() {
-    const isEnemyReceptor = battle.currentPokemonTurn.name === battle.enemyCurrentPokemon.name;
+    const isEnemyReceptor = battle.enemyCurrentPokemon.name === battle.currentEnemyPokemonTurn.name;
     return (<div>{battle.currentEnemyPokemonTurn.name} {isEnemyReceptor ? "enemigo" : ""} ha recibido {battle.currentAttackDamageTurn} PV</div>);
 }
 
 export function FaintedMessage() {
-    return (<div></div>);
+    const isEnemyReceptor = battle.enemyCurrentPokemon.name === battle.enemyCurrentPokemon.name;
+    return (<div>{battle.currentEnemyPokemonTurn.name} {isEnemyReceptor ? "enemigo" : ""} está debilitado</div>);
 }

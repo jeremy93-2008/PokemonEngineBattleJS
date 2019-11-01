@@ -81,12 +81,13 @@ export class Battle {
 
   private makeAttack(attacker: Monster, defender: Monster, attack: Attacks): PkmnBattleReturn {
     // We see if the attacker can attack with its current status, if not the case we return a simple object with 0 damage
-    if(this.unableStatus(attacker)) return {damage: 0, modifier: 0, attack, unableToAttack: true};
+    if(this.unableStatus(attacker)) return {damage: 0, modifier: 0, attack, unableToAttack: true, attackEvaded: false};
 
     let attPower;
     let defPower;
     let modifier = 1;
     let bonification = 1;
+    let attackEvaded = false;
     let variant = randomGenerator(85, 100) / 100;
     if (attack.attType == "Special") {
       attPower = attacker.stats.matt;
@@ -114,6 +115,7 @@ export class Battle {
 
     if ((Math.random() * 100) >= attack.accuracy) {
       damage = 0;
+      attackEvaded = true;
     };
     
     defender.stats.hp -= damage;   
@@ -124,7 +126,7 @@ export class Battle {
 
     this.currentAttackDamageTurn = damage;
 
-    return {damage, modifier, attack, unableToAttack: false};
+    return {damage, modifier, attack, unableToAttack: false, attackEvaded};
   }
 
   applyStatus(currentPokemon: Monster) {
