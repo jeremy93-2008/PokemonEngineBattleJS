@@ -1,12 +1,18 @@
 import React from "react";
-import { PkmnsAllTeams, PkmnTrainers, setMessagePkmn } from "./typing/pkmn-battle";
+import { PkmnsAllTeams, setMessagePkmn, PkmnTrainerProps } from "./typing/pkmn-battle";
 import { battle } from "./pkmn-message-core";
-import { onClickAttackForUser } from "./pkmn-message-helper";
+import { onClickAttackForUser, onClickPokemonChooseForUser } from "./pkmn-message-helper";
+import { PokemonList } from "./pkmn-list";
+import Monster from "../core/monster";
 
 export function MessageStart() {
     const enemyName = battle.trainers.her.name;
     if(!enemyName) return <div>¡Un pokemon salvaje ha aparecido!</div>
     return (<div>¡{enemyName} te lanza un desafio!</div>);
+}
+
+export function MessagePokemonName(trainer: PkmnTrainerProps,pkmn: Monster) {
+    return (<div>¡{trainer.name} envía a {pkmn.name}!</div>);
 }
 
 export function AttackForUser() {
@@ -18,6 +24,13 @@ export function AttackForUser() {
                 <span className="type">{att.typing.toLowerCase()}</span>
             </button>)}
     </div>;
+}
+
+export function PokemonChooseForUser() {
+    const teamPkmn = battle.allyPokemonTeam;
+    return <PokemonList onClick={(pkmn, index) => {
+        onClickPokemonChooseForUser(index);
+    }} pkmns={teamPkmn} details={{hp: true}}></PokemonList>
 }
 
 export function AttackLaunchedMessage() {
@@ -36,6 +49,11 @@ export function DamageAttackMessage() {
 }
 
 export function FaintedMessage() {
-    const isEnemyReceptor = battle.enemyCurrentPokemon.name === battle.enemyCurrentPokemon.name;
+    const isEnemyReceptor = battle.enemyCurrentPokemon.name === battle.currentEnemyPokemonTurn.name;
     return (<div>{battle.currentEnemyPokemonTurn.name} {isEnemyReceptor ? "enemigo" : ""} está debilitado</div>);
+}
+
+export function EvadedAttackMessage() {
+    const isEnemyReceptor = battle.enemyCurrentPokemon.name === battle.currentEnemyPokemonTurn.name;
+    return (<div>{battle.currentEnemyPokemonTurn.name} {isEnemyReceptor ? "enemigo" : ""} ha esquivado el ataque</div>);    
 }

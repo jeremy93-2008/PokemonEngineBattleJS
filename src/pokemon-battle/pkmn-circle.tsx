@@ -35,27 +35,3 @@ export function PokemonCircle(props: PkmnCircleProps) {
         </div>
     );
 }
-
-function getTrainerClassName(props: PkmnCircleProps): string | undefined {
-    let className = "trainer";
-    if(props.humain) className += " human";
-    if(props.beginBattle) className += " endAnimationTrainer";
-    else if(!props.beginBattle && props.action && props.action != "MessageStart") className += " invisible";
-    return className;
-}
-
-function getPkmnClassName(props: PkmnCircleProps): string | undefined {
-    let className = "pokemon";
-    if(props.humain) className += " human";
-    if(props.animation && props.animation.messageType == "MessageAttack") className += " animate";
-    if(props.team[props.pokemonSelected].stats.hp <= 0 && props.action == "MessageFainted") className += " fainted";
-    if(props.team[props.pokemonSelected].stats.hp <= 0 && props.action == "PokemonList") className += " invisible"
-    if(props.beginBattle || (props.action == "MessagePokemonChanged" && props.humain)
-        || (props.action == "MessagePokemonChanging" && !props.humain)) className += " startAnimation";
-    else if(!props.beginBattle && props.action && props.action != "MessageStart") className += " visible";
-    return className;
-}
-
-function doAnimation(animation: PkmnStateAnimation) {
-    return animation && animation.messageType == "MessageAttack" && <AnimationAttack className={animation.human ? "animation-human" : "animation"} image={animation.image} count={animation.count} time={animation.time} splitBy={animation.splitBy}></AnimationAttack>
-}

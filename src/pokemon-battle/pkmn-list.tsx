@@ -13,7 +13,7 @@ export function PokemonList(props: PokemonListProps) {
                 const image = images[pkmn.Name];
                 const isDisabled = (props.disabled) ? props.disabled.filter(d => d.Name == pkmn.Name).length > 0 : false;
                 return <button onClick={() => {
-                    props.onClick(pkmn)
+                    props.onClick(pkmn, i)
                 }} key={i} 
                 className={`pokemon-one ${props.classForCell} ${isDisabled ? "disable" : ""}`}><img src={image}></img><br />{pkmn.Name}</button>
             })}
@@ -25,7 +25,7 @@ export function PokemonList(props: PokemonListProps) {
                 const isDisabled = (props.disabled) ? props.disabled.filter(d => d.Name == pkmn.name).length > 0 : false;
                 const percentage = pkmn.stats.hp * 100 / pkmn.maxHP;
                 return <button onClick={() => {
-                    props.onClick(pkmn)
+                    props.onClick(pkmn, i)
                 }} key={i} 
                 className={`pokemon-one ${props.classForCell} ${isDisabled ? "disable" : ""}`}>
                     <img src={image}></img>

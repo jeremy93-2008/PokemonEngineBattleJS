@@ -8,8 +8,8 @@ import { PkmnCurrentStatus, PkmnBattleReturn } from "../pokemon-battle/typing/pk
 import { PkmnTrainers } from "../pokemon-battle/typing/pkmn-battle";
 
 export class Battle {
-  private pkmnTeamAlly: Monster[];
-  private pkmnTeamEnemy: Monster[];
+  public allyPokemonTeam: Monster[];
+  public enemyPokemonTeam: Monster[];
 
   public trainers: PkmnTrainers;
 
@@ -28,8 +28,8 @@ export class Battle {
   public attackLaunched: Attacks;
 
   constructor(teamAlly: Monster[], teamEnemy: Monster[], trainers: PkmnTrainers) {
-    this.pkmnTeamAlly = teamAlly;
-    this.pkmnTeamEnemy = teamEnemy;
+    this.allyPokemonTeam = teamAlly;
+    this.enemyPokemonTeam = teamEnemy;
     this.allyPkmnIndex = 0;
     this.enemyPkmnIndex = 0;
     this.attacksEnemy = [];
@@ -43,25 +43,25 @@ export class Battle {
     this.selectPokemonToFight(0, 0);
   }
 
-  selectPokemonToFight(allyPkmnIndex: number, enemyPkmnIndex: number) {
+  selectPokemonToFight(allyPkmnIndex: number, enemyPkmnIndex: number, changeEnemyAttacks?: boolean) {
     this.allyPkmnIndex = allyPkmnIndex;
     this.enemyPkmnIndex = enemyPkmnIndex;
 
-    this.allyCurrentPokemon = this.pkmnTeamAlly[allyPkmnIndex];
-    this.enemyCurrentPokemon = this.pkmnTeamEnemy[enemyPkmnIndex];
+    this.allyCurrentPokemon = this.allyPokemonTeam[allyPkmnIndex];
+    this.enemyCurrentPokemon = this.enemyPokemonTeam[enemyPkmnIndex];
     
-    if(this.attacksEnemy.length < 1) 
+    if(changeEnemyAttacks || this.attacksEnemy.length < 1)
       this.selectAttacksForComputer();
   }
 
   public doRound(allyAttack: Attacks, enemyAttack: Attacks) {
-    let firstToAttack = this.pkmnTeamAlly[this.allyPkmnIndex];
-    let secondToAttack = this.pkmnTeamEnemy[this.enemyPkmnIndex];
+    let firstToAttack = this.allyPokemonTeam[this.allyPkmnIndex];
+    let secondToAttack = this.enemyPokemonTeam[this.enemyPkmnIndex];
     let attack = allyAttack;
 
     if(firstToAttack.stats.speed < secondToAttack.stats.speed) {
-      firstToAttack = this.pkmnTeamEnemy[this.enemyPkmnIndex];
-      secondToAttack = this.pkmnTeamAlly[this.allyPkmnIndex];
+      firstToAttack = this.enemyPokemonTeam[this.enemyPkmnIndex];
+      secondToAttack = this.allyPokemonTeam[this.allyPkmnIndex];
       attack = enemyAttack;
     }
 
@@ -200,7 +200,7 @@ export class Battle {
   }
 
   private selectAttacksForComputer() {
-    const pkmn = this.pkmnTeamEnemy[this.enemyPkmnIndex];
+    const pkmn = this.enemyPokemonTeam[this.enemyPkmnIndex];
     this.attacksEnemy = pkmnAttacks.getRamdomAttacksPokemon(pkmn.toPokemon(), pkmn.level, true);
   }
 }

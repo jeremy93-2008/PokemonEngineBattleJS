@@ -3,7 +3,7 @@ import Monster from "../../core/monster";
 
 interface PokemonListProps {
     pkmns: PokemonObject[] | Monster[];
-    onClick: (pkmn: PokemonObject | Monster) => void;
+    onClick: (pkmn: PokemonObject | Monster, index: number) => void;
     className?: string;
     classForCell?: string;
     disabled?: PokemonObject[],
