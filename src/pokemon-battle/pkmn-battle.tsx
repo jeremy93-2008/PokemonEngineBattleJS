@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from "react";
+import clone from "lodash.clonedeep";
+import { RouteComponentProps } from "react-router-dom";
 
 import "./style/pkmn-battle.css";
 
 import { PokemonCircle } from "./pkmn-circle";
-import { RouteComponentProps } from "react-router-dom";
-import { PkmnBattleProps, PkmnStateAnimation, PkmnMessage, PkmnStateMessage } from "./typing/pkmn-battle";
-import { Battle } from "../core/battle";
-import { nextMessage } from "./pkmn-message-core";
+import { PkmnBattleProps } from "./typing/pkmn-battle";
+import { pkmnBattleKey } from "./pkmn-message-helper";
+import { nextMessage, battle } from "./pkmn-message-core";
 
 export function PokemonBattle(props: RouteComponentProps) {
     const { terrain, pkmns, trainers } = props as unknown as PkmnBattleProps;
-    const [ally, setAlly] = useState({
-        team: pkmns.you,
-        trainer: {
-            name: trainers.you.name,
-            sprite: trainers.you.sprite
-        }
-    });
-    const [enemy, setEnemy] = useState({
-        team: pkmns.her,
-        trainer: {
-            name: trainers.her.name,
-            sprite: trainers.her.sprite
-        }
-    });
     
     const [message, setMessage] = useState(<div></div>);
+    const [pkmnBattle, setPkmnBattle] = useState({battle, message: ""});
 
     useEffect(() => {
-        setMessage(nextMessage(pkmns, trainers, setMessage));
+        setMessage(nextMessage(pkmns, trainers, setMessage, setPkmnBattle));
+        setPkmnBattle({battle: clone(battle), message: pkmnBattleKey.MessageStart});
     }, []);
 
     return (<div className={`background ${terrain}`}>
+        <div className="pokemonWrapper">
+            <PokemonCircle battle={pkmnBattle.battle} message={pkmnBattle.message}></PokemonCircle>
+        </div>
         <div className="messageWrapper">
             {message}
         </div>

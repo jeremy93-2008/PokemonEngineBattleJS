@@ -1,9 +1,22 @@
 import { battle, messagesList } from "./pkmn-message-core";
 import Attacks from "../core/attack";
 import { getComputerAttack, getComputerPokemon } from "../core/computerAI";
-import { AttackLaunchedMessage, UnableAttackMessage, DamageAttackMessage, AttackForUser, FaintedMessage, EvadedAttackMessage, PokemonChooseForUser, MessagePokemonName } from "./pkmn-message";
+import { AttackLaunchedMessage, UnableAttackMessage, DamageAttackMessage, AttackForUser, FaintedMessage, EvadedAttackMessage, PokemonChooseForUser, MessagePokemonName, PokemonCanBeChangedForUser } from "./pkmn-message";
 import Monster from "../core/monster";
 import { PkmnBattleReturn } from "./typing/pkmn.def";
+
+export const pkmnBattleKey = {
+    MessageStart: "MessageStart",
+    MessagePokemonName: "MessagePokemonName",
+    AttackForUser: "AttackForUser",
+    PokemonChooseForUser: "PokemonChooseForUser",
+    PokemonCanBeChangedForUser: "PokemonCanBeChangedForUser",
+    AttackLaunchedMessage: "AttackLaunchedMessage",
+    UnableAttackMessage: "UnableAttackMessage",
+    DamageAttackMessage: "DamageAttackMessage",
+    FaintedMessage: "FaintedMessage",
+    EvadedAttackMessage: "EvadedAttackMessage"
+}
 
 export function onClickAttackForUser(selectedAtt: Attacks) {
     roundAttack(selectedAtt);
@@ -13,6 +26,16 @@ export function onClickPokemonChooseForUser(indexNextPkmn: number) {
     battle.selectPokemonToFight(indexNextPkmn, battle.enemyPkmnIndex);
     setMessageListEmpty();
     messagesList.push(AttackForUser());
+}
+
+export function onClickPokemonCanBeChangedForUser() {
+    setMessageListEmpty();
+    messagesList.push(PokemonChooseForUser());
+}
+
+export function onClickPokemonContinueWithoutChanging() {
+    setMessageListEmpty();
+    messagesList.push(AttackForUser())
 }
 
 function addMessageRound(currentRound: PkmnBattleReturn) {
@@ -51,6 +74,8 @@ function roundAttack(selectedAtt: Attacks) {
         const index = getComputerPokemon(battle.enemyPokemonTeam, battle.allyCurrentPokemon).index;
         battle.selectPokemonToFight(battle.allyPkmnIndex, index, true)
         messagesList.push(MessagePokemonName(battle.trainers.her, battle.enemyCurrentPokemon))
+        messagesList.push(PokemonCanBeChangedForUser());
+        return;
     }
     if(isFaintedAllTeam()) {
         alert("Has ganado!")

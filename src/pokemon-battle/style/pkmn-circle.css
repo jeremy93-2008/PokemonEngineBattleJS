@@ -100,7 +100,6 @@
 }
 .pokemon {
     display: inline-block;
-    opacity:0;
     right: 22vw;
     top: 14vh;
     z-index: 2;

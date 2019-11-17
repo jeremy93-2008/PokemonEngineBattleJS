@@ -42,6 +42,15 @@
     padding-top: 3vh;
 }
 
+.changed-pokemon .btn {
+    border: solid 1px #888;
+    padding: 2vh 20vw;
+    margin-bottom: 1vh;
+    border-radius: 50px;
+    background: rgba(0,0,0, 0.1);
+    cursor: pointer;
+}
+
 .attacks-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
