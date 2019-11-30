@@ -20,7 +20,8 @@ export function PokemonCircle(props: PkmnCircleProps) {
                 const currentPkmn = getPkmnValue[0] as Monster;
                 const team = getPkmnValue[1] as Monster[];
 
-                return <PokemonOneCircle human={index == 0} currentPkmn={currentPkmn} team={team}></PokemonOneCircle>
+                return <PokemonOneCircle key={currentPkmn.name
+                +index} human={index == 0} currentPkmn={currentPkmn} team={team}></PokemonOneCircle>
             })}
         </div>
     );

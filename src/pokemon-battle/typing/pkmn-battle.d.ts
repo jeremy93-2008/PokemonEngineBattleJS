@@ -64,3 +64,5 @@ interface PkmnBattleContainer {
     setMessage: setMessagePkmn,
     setBattle: setBattlePkmn
 }
+
+type pkmnBattleList = {key: string, battle: Battle};

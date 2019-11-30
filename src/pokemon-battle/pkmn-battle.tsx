@@ -7,7 +7,7 @@ import "./style/pkmn-battle.css";
 import { PokemonCircle } from "./pkmn-circle";
 import { PkmnBattleProps } from "./typing/pkmn-battle";
 import { pkmnBattleKey } from "./pkmn-message-helper";
-import { nextMessage, battle } from "./pkmn-message-core";
+import { nextMessage, battle, messagesList, battlesList } from "./pkmn-message-core";
 
 export function PokemonBattle(props: RouteComponentProps) {
     const { terrain, pkmns, trainers } = props as unknown as PkmnBattleProps;
@@ -22,6 +22,9 @@ export function PokemonBattle(props: RouteComponentProps) {
 
     return (<div className={`background ${terrain}`}>
         <div className="pokemonWrapper">
+            {JSON.stringify(messagesList.map(c => c.key))}
+            <br />
+            {JSON.stringify(battlesList.map(c => c.key))}
             <PokemonCircle battle={pkmnBattle.battle} message={pkmnBattle.message}></PokemonCircle>
         </div>
         <div className="messageWrapper">
