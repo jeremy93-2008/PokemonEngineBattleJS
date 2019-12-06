@@ -117,14 +117,14 @@ function setBattleListEmpty() {
 
 function setBattleWhenPkmnAttack() {
     battlesList.push({
-        key: pkmnBattleKey.DamageAttackMessage,
+        key: pkmnBattleKey.AttackLaunchedMessage,
         battle: cloneDeep(battle)
     })
 }
 
 function setBattleWhenPkmnFaint() {
     battlesList.push({
-        key: pkmnBattleKey.PokemonCanBeChangedForUser,
+        key: pkmnBattleKey.FaintedMessage,
         battle: cloneDeep(battle)
     })    
 }

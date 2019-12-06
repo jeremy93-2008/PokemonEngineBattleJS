@@ -9,12 +9,17 @@ export let battle: Battle;
 export let circleBattle: Battle;
 
 export const messagesList: JSX.Element[] = [];
+export let currentMessageView: JSX.Element;
+
 export const battlesList: pkmnBattleList[] = [];
 export let currentBattleView: Battle;
 
 export function nextMessage(pkmns: PkmnsAllTeams, trainers: PkmnTrainers, setMessage: setMessagePkmn, setBattle: setBattlePkmn) {
     if(!battle) initializeMessage(pkmns, trainers, setMessage)
     const next = messagesList.length > 1 ? messagesList.shift() : messagesList[0];
+    currentMessageView = next!;
+    setBattle({battle: getCurrentBattleFromKey(next!.key as string), 
+        message: next!.key as string})
     return MessageContainer(next as JSX.Element, {pkmns, trainers, setMessage, setBattle});    
 }
 
@@ -23,9 +28,6 @@ function MessageContainer(render: JSX.Element, nextArgs: PkmnBattleContainer) {
     const pkmnBattle = clone(battle);
     return (<div className="messageContainer" onClick={() => { 
         setMessage(nextMessage(pkmns, trainers, setMessage, setBattle));
-        const nextMessageKey = messagesList[0].key;
-        setBattle({battle: getCurrentBattleFromKey(nextMessageKey as string), 
-            message: nextMessageKey as string})
         }}>
         {render}
     </div>);

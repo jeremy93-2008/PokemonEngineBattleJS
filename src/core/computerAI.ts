@@ -16,7 +16,7 @@ import { Types } from "./types";
  * Finally attacks with Status are slighty encouraged adding 0.05 to any attack with Status Kind, but only if the human pokemon is not already affected by a status.
  */
 export function getComputerAttack(moves: Attacks[], pkmnAlly: Monster): Attacks {
-    const randomValue = Math.random();
+    const randomValue = Math.random() * 1.2;
     return moves.filter((move, i) => {
         let maxAttackVariant = 0.25 * (i + 1);
         if(Types.getWeaknessForPkmn(pkmnAlly.toPokemon()).find((type) => type == move.attType)) {
@@ -27,12 +27,12 @@ export function getComputerAttack(moves: Attacks[], pkmnAlly: Monster): Attacks 
             maxAttackVariant -= 0.5;
         }
         return randomValue < maxAttackVariant;
-    })[0];
+    })[0] || moves[0];
 }
 
 export function getComputerPokemon(team: Monster[], pkmnAlly: Monster) {
-    const randomValue = Math.random();
-    const pokemon = team.filter(pkmn => pkmn.stats.hp > 0).filter((pkmn, i, arr) => {
+    const randomValue = Math.random() * 0.33;
+    let pokemon = team.filter(pkmn => pkmn.stats.hp > 0).filter((pkmn, i, arr) => {
         let maxPokemonVariant = (1 / arr.length) * (i + 1);
         if(pkmnAlly.weakness.find((type) => pkmn.typing.filter(t => t == type).length > 0)) {
             maxPokemonVariant += 0.33;
@@ -43,6 +43,9 @@ export function getComputerPokemon(team: Monster[], pkmnAlly: Monster) {
         }
         return randomValue < maxPokemonVariant;
     })[0];
+    if(!pokemon) {
+        pokemon = team.filter(pkmn => pkmn.stats.hp > 0)[0];
+    }
     const index = team.findIndex((pkmn) => pkmn.name == pokemon.name);
     return {pokemon, index}
 }

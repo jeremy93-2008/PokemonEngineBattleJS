@@ -12,7 +12,7 @@
 }
 .hud.human {
     left: 54vw;
-    bottom: 38vh;
+    bottom: 36vh;
     height: 13vh;
     top: initial;
     position: absolute;
@@ -126,16 +126,16 @@
 .pokemon.human {
     display: inline-block;
     position: absolute;
-    bottom: 28vh;
+    bottom: 22vh;
     z-index: 2;
-    left: 22vw;
+    left: 25vw;
     top: initial;
     right: initial;
 }
-.pokemon img {
+.pokemon {
     width: 13vw;
 }
-.pokemon.animate {
+.pokemon.damaged {
     animation: flicking .7s ease-in;
 }
 .animation {

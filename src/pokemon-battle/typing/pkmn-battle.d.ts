@@ -30,6 +30,8 @@ interface PkmnCircleProps {
 
 interface PkmnCircleOneProps {
     team: Monster[];
+    messageKey: string;
+    battle: Battle;
     currentPkmn: Monster;
     human: boolean;
 }

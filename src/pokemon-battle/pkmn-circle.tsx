@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { PkmnCircleProps } from "./typing/pkmn-battle";
-import images from "../assets/normal/*.png";
-import back_images from "../assets/back/*.png";
-import pokeball from "../assets/pokeball.png";
 
 import "./style/pkmn-circle.css";
 import { PokemonOneCircle } from "./pokemon-one-circle";
@@ -21,7 +18,7 @@ export function PokemonCircle(props: PkmnCircleProps) {
                 const team = getPkmnValue[1] as Monster[];
 
                 return <PokemonOneCircle key={currentPkmn.name
-                +index} human={index == 0} currentPkmn={currentPkmn} team={team}></PokemonOneCircle>
+                +index} battle={battle} messageKey={message} human={index == 0} currentPkmn={currentPkmn} team={team}></PokemonOneCircle>
             })}
         </div>
     );

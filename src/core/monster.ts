@@ -5,10 +5,12 @@ import { PokemonObject, pkmnStats, PkmnCurrentStatus } from "../pokemon-battle/t
 export default class Monster {
   public maxHP: number;
   public maxSpeed: number;
+  public id: number;
   /**
  * Create a New Pokemon ready to fight
  */
   constructor(public name: string, public stats: pkmnStats, public attacks: Attacks[], public typing: (string | undefined)[], public weakness: string[], public strength: string[], public human: boolean, public inmunities: string[], public level: number, public currentStatus: PkmnCurrentStatus) {
+    this.id = Number((Math.random() * 9999).toFixed(0));
     this.stats = stats;
     this.attacks = attacks;
     this.typing = typing;
