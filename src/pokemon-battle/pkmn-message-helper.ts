@@ -9,6 +9,11 @@ import cloneDeep = require("lodash.clonedeep");
 export const pkmnBattleKey = {
     MessageStart: "MessageStart",
     MessagePokemonName: "MessagePokemonName",
+    MessagePokemonNameNewChallenger: {
+        BeginBattle: "MessagePokemonNameBeginBattle",
+        Ally: "MessagePokemonNameBeginAlly",
+        Enemy: "MessagePokemonNameBeginEnemy"
+    },
     AttackForUser: "AttackForUser",
     PokemonChooseForUser: "PokemonChooseForUser",
     PokemonCanBeChangedForUser: "PokemonCanBeChangedForUser",
@@ -27,7 +32,8 @@ export function onClickPokemonChooseForUser(indexNextPkmn: number) {
     battle.selectPokemonToFight(indexNextPkmn, battle.enemyPkmnIndex);
     setMessageListEmpty();
     setBattleListEmpty();
-    setBattleWhenPkmnChanged();
+    setBattleWhenAllyPkmnChange();
+    messagesList.push(MessagePokemonName(battle.trainers.you, battle.allyCurrentPokemon, pkmnBattleKey.MessagePokemonNameNewChallenger.Ally))
     messagesList.push(AttackForUser());
 }
 
@@ -73,25 +79,25 @@ function roundAttack(selectedAtt: Attacks) {
         setBattleWhenPkmnAttack();
         addMessageRound(roundTwo);
     }
-    if(isFaintedMessage(battle.allyCurrentPokemon)) {
-        messagesList.push(PokemonChooseForUser());
-        setBattleWhenPkmnFaint();
-        messagesList.push(MessagePokemonName(battle.trainers.you, battle.allyCurrentPokemon))
-        return;
-    }
-    if(isFaintedMessage(battle.enemyCurrentPokemon)) {
-        const index = getComputerPokemon(battle.enemyPokemonTeam, battle.allyCurrentPokemon).index;
-        battle.selectPokemonToFight(battle.allyPkmnIndex, index, true)
-        setBattleWhenPkmnFaint();
-        setBattleWhenPkmnChanged();
-        messagesList.push(MessagePokemonName(battle.trainers.her, battle.enemyCurrentPokemon))
-        messagesList.push(PokemonCanBeChangedForUser());
-        return;
-    }
     if(isFaintedAllTeam()) {
         setBattleWhenPkmnFaint();
         alert("Has ganado!");
         location.reload();
+    }
+    if(isFaintedMessage(battle.allyCurrentPokemon)) {
+        messagesList.push(PokemonChooseForUser());
+        setBattleWhenPkmnFaint();
+        return;
+    }
+    if(isFaintedMessage(battle.enemyCurrentPokemon)) {
+        const index = getComputerPokemon(battle.enemyPokemonTeam, battle.allyCurrentPokemon).index;
+        battle.selectPokemonToFight(battle.allyPkmnIndex, index, true);
+        battle.currentEnemyPokemonTurn = battle.enemyCurrentPokemon;
+        setBattleWhenPkmnFaint();
+        setBattleWhenEnemyPkmnChange();
+        messagesList.push(MessagePokemonName(battle.trainers.her, battle.enemyCurrentPokemon))
+        messagesList.push(PokemonCanBeChangedForUser());
+        return;
     }
     messagesList.push(AttackForUser())
 }
@@ -129,9 +135,16 @@ function setBattleWhenPkmnFaint() {
     })    
 }
 
-function setBattleWhenPkmnChanged() {
+function setBattleWhenEnemyPkmnChange() {
     battlesList.push({
         key: pkmnBattleKey.AttackForUser,
         battle: cloneDeep(battle)
     })
+}
+
+function setBattleWhenAllyPkmnChange() {
+    battlesList.push({
+        key: pkmnBattleKey.MessagePokemonNameNewChallenger.Ally,
+        battle: cloneDeep(battle)
+    });
 }

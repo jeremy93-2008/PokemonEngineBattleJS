@@ -39,9 +39,9 @@ function initializeMessage(pkmns: PkmnsAllTeams, trainers: PkmnTrainers, setMess
     circleBattle = battle;
     messagesList.push(MessageStart());
     messagesList.push(MessagePokemonName(battle.trainers.you, 
-        battle.allyCurrentPokemon))
+        battle.allyCurrentPokemon, pkmnBattleKey.MessagePokemonNameNewChallenger.BeginBattle))
     messagesList.push(MessagePokemonName(battle.trainers.her, 
-        battle.enemyCurrentPokemon))
+        battle.enemyCurrentPokemon, pkmnBattleKey.MessagePokemonNameNewChallenger.BeginBattle))
     messagesList.push(AttackForUser())
 }
 

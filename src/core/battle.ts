@@ -22,6 +22,7 @@ export class Battle {
   public currentPokemonTurn: Monster;
   public currentEnemyPokemonTurn: Monster;
   public currentAttackDamageTurn: number;
+  public currentAttackResult: PkmnBattleReturn | null;
 
   public attacksEnemy: Attacks[];
 
@@ -38,6 +39,7 @@ export class Battle {
     this.currentPokemonTurn = this.allyCurrentPokemon;
     this.currentEnemyPokemonTurn = this.enemyCurrentPokemon;
     this.currentAttackDamageTurn = 0;
+    this.currentAttackResult = null;
     this.attackLaunched = this.allyCurrentPokemon.attacks[0];
     this.trainers = trainers;
     this.selectPokemonToFight(0, 0);
@@ -81,7 +83,8 @@ export class Battle {
 
   private makeAttack(attacker: Monster, defender: Monster, attack: Attacks): PkmnBattleReturn {
     // We see if the attacker can attack with its current status, if not the case we return a simple object with 0 damage
-    if(this.unableStatus(attacker)) return {damage: 0, modifier: 0, attack, unableToAttack: true, attackEvaded: false};
+    this.currentAttackResult = {damage: 0, modifier: 0, attack, unableToAttack: true, attackEvaded: false};
+    if(this.unableStatus(attacker)) return this.currentAttackResult;
 
     let attPower;
     let defPower;
@@ -126,7 +129,9 @@ export class Battle {
 
     this.currentAttackDamageTurn = damage;
 
-    return {damage, modifier, attack, unableToAttack: false, attackEvaded};
+    this.currentAttackResult = {damage, modifier, attack, unableToAttack: false, attackEvaded};
+
+    return this.currentAttackResult;
   }
 
   applyStatus(currentPokemon: Monster) {

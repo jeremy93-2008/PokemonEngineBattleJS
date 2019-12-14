@@ -11,8 +11,8 @@ export function MessageStart() {
     return (<div key={pkmnBattleKey.MessageStart}>¡{enemyName} te lanza un desafio!</div>);
 }
 
-export function MessagePokemonName(trainer: PkmnTrainerProps,pkmn: Monster) {
-    return (<div key={pkmnBattleKey.MessagePokemonName}>¡{trainer.name} envía a {pkmn.name}!</div>);
+export function MessagePokemonName(trainer: PkmnTrainerProps,pkmn: Monster, key?: string) {
+    return (<div key={key ? key : pkmnBattleKey.MessagePokemonName}>¡{trainer.name} envía a {pkmn.name}!</div>);
 }
 
 export function AttackForUser() {
@@ -30,7 +30,7 @@ export function PokemonChooseForUser() {
     const teamPkmn = battle.allyPokemonTeam;
     return <PokemonList key={pkmnBattleKey.PokemonChooseForUser} onClick={(pkmn, index) => {
         onClickPokemonChooseForUser(index);
-    }} pkmns={teamPkmn} details={{hp: true}}></PokemonList>
+    }} pkmns={teamPkmn} disabled={teamPkmn.filter(pkmn => pkmn.stats.hp == 0).map(pkmn => pkmn.toPokemon())} details={{hp: true}}></PokemonList>
 }
 
 export function PokemonCanBeChangedForUser() {

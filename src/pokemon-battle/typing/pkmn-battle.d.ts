@@ -25,11 +25,13 @@ interface PkmnTrainerProps {
 
 interface PkmnCircleProps {
     battle: Battle;
+    trainers: PkmnTrainers
     message: string;
 }
 
 interface PkmnCircleOneProps {
     team: Monster[];
+    trainer: PkmnTrainerProps;
     messageKey: string;
     battle: Battle;
     currentPkmn: Monster;

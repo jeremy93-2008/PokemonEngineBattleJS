@@ -75,6 +75,7 @@
 .trainer {
     right: 25vw;
     top: 14vh;
+    width: 8vw;
     position: absolute;
     z-index: 3;
     animation: trainerStart .7s linear;
@@ -83,7 +84,7 @@
     top: initial;
     right: initial;
     left: 25vw;
-    bottom: 32vh;
+    bottom: 25vh;
     animation: trainerStartHuman .7s linear;
 }
 .trainer img {
@@ -118,9 +119,6 @@
     animation: pokemonFaintedHuman .5s linear forwards;    
 }
 .pokemon.startAnimation {
-    animation: pokemonStart .3s linear .3s forwards;
-}
-.pokemon.human.startAnimation {
     animation: pokemonStart .3s linear forwards;
 }
 .pokemon.human {
@@ -159,6 +157,15 @@
 }
 .hud .pokeball-list .pokeball.disable {
     filter: grayscale(100%);
+}
+.pokemon-list .pokemon-one .hp-container{
+    height: 1.5vh;
+    padding: 0px;
+    width: 11.5vw;
+}
+.pokemon-list .pokemon-one.disable {
+    pointer-events: none;
+    filter: grayscale(1);
 }
 @keyframes flicking {
     0% {

@@ -23,7 +23,7 @@ export function PokemonBattle(props: RouteComponentProps) {
     return (<div className={`background ${terrain}`}>
         <div className="pokemonWrapper">
             {currentMessageView ? currentMessageView.key : ""}
-            <PokemonCircle battle={pkmnBattle.battle} message={pkmnBattle.message}></PokemonCircle>
+            <PokemonCircle trainers={trainers} battle={pkmnBattle.battle} message={pkmnBattle.message}></PokemonCircle>
         </div>
         <div className="messageWrapper">
             {message}
