@@ -7,7 +7,7 @@ import "./style/pkmn-battle.css";
 import { PokemonCircle } from "./pkmn-circle";
 import { PkmnBattleProps } from "./typing/pkmn-battle";
 import { pkmnBattleKey } from "./pkmn-message-helper";
-import { nextMessage, battle, messagesList, battlesList, currentMessageView } from "./pkmn-message-core";
+import { nextMessage, battle, currentMessageView } from "./pkmn-message-core";
 
 export function PokemonBattle(props: RouteComponentProps) {
     const { terrain, pkmns, trainers } = props as unknown as PkmnBattleProps;

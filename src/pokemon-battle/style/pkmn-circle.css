@@ -105,6 +105,8 @@
     top: 14vh;
     z-index: 2;
     position: absolute;
+    width: 13vw;
+    animation: pokemonLive 1.5s linear infinite alternate;
 }
 .visible {
     opacity: 1;
@@ -129,9 +131,7 @@
     left: 25vw;
     top: initial;
     right: initial;
-}
-.pokemon {
-    width: 13vw;
+    animation: pokemonHumanLive 1.5s linear infinite alternate;
 }
 .pokemon.damaged {
     animation: flicking .7s ease-in;
@@ -287,5 +287,23 @@
     to {
         bottom: 0;
         transform: scaleY(0);
+    }
+}
+
+@keyframes pokemonLive {
+    33% {
+        transform: rotateZ(5deg);
+    }
+    66% {
+        transform: rotateZ(-5deg);
+    }
+}
+
+@keyframes pokemonHumanLive {
+    33% {
+        transform: translateY(10px);
+    }
+    66% {
+        transform: translateY(0px);
     }
 }

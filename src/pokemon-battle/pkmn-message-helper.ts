@@ -52,7 +52,7 @@ export function onClickPokemonContinueWithoutChanging() {
 function addMessageRound(currentRound: PkmnBattleReturn) {
     if(currentRound.unableToAttack) {
         messagesList.push(UnableAttackMessage());
-        return;
+        return true;
     }
     messagesList.push(AttackLaunchedMessage());
     if(currentRound.attackEvaded) {
